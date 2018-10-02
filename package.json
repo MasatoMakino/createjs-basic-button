@@ -1,0 +1,31 @@
+{
+  "name": "createjs-basic-button",
+  "version": "0.8.0",
+  "description": "Basic button library for CreateJS.",
+  "main": "./bin/createjs-basic-button.js",
+  "types": "./bin/createjs-basic-button.d.ts",
+  "repository": "https://MasatoMakino@github.com/MasatoMakino/createjs-basic-button.git",
+  "author": "MasatoMakino <unagiinu.g@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/easeljs": "^1.0.0",
+    "createjs-cache-util": "https://github.com/MasatoMakino/createjs-cache-util.git"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "easeljs": "^1.0.2",
+    "http-server": "^0.11.1",
+    "husky": "^1.1.0",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.7.0",
+    "typescript": "^3.1.1"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && npm run build"
+    }
+  }
+}
