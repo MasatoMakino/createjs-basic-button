@@ -25,7 +25,7 @@ export class BasicClickButton extends createjs.Container {
     this._buttonValue = null; //このボタンに割り当てられた値
     /**
      * ボタンを押す
-     * @param    evt
+     * @param e
      */
     this.onPressButton = e => {
       const evt = e;
@@ -33,7 +33,7 @@ export class BasicClickButton extends createjs.Container {
     };
     /**
      * ボタンを離す
-     * @param    evt
+     * @param e
      */
     this.onReleaseButton = e => {
       const evt = e;
@@ -41,7 +41,7 @@ export class BasicClickButton extends createjs.Container {
     };
     /**
      * ボタンにマウスオーバーする
-     * @param    evt
+     * @param e
      */
     this.onOverButton = e => {
       const evt = e;
@@ -49,7 +49,7 @@ export class BasicClickButton extends createjs.Container {
     };
     /**
      * ボタンからマウスアウトする
-     * @param    evt
+     * @param e
      */
     this.onOutButton = e => {
       const evt = e;
@@ -200,8 +200,7 @@ export class BasicClickButton extends createjs.Container {
    * @return    ボタンが有効か否か
    */
   checkActivity() {
-    const activity = !this.isDisable && this.mouseEnabled;
-    return activity;
+    return !this.isDisable && this.mouseEnabled;
   }
   /**
    * 現在のボタンの状態を取得する
@@ -257,8 +256,8 @@ export class BasicButtonMaterialConfig {}
 export class BasicButtonLabelColorConfig {
   /**
    * 不足している初期値を補う
-   * @param {ui.button.BasicButtonLabelColorConfig} config
-   * @returns {ui.button.BasicButtonLabelColorConfig}
+   * @param {BasicButtonLabelColorConfig} config
+   * @returns {BasicButtonLabelColorConfig}
    */
   static initLabelColorConfig(config) {
     config.over = config.over || config.normal;

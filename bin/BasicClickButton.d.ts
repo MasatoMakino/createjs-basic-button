@@ -34,25 +34,25 @@ export declare class BasicClickButton extends createjs.Container {
   protected updateMaterialVisible(type: BasicButtonState): void;
   /**
    * ボタンを押す
-   * @param    evt
+   * @param e
    */
   onPressButton: (e?: any) => void;
   pressButton(evt?: createjs.MouseEvent): void;
   /**
    * ボタンを離す
-   * @param    evt
+   * @param e
    */
   onReleaseButton: (e?: any) => void;
   releaseButton(evt?: createjs.MouseEvent): void;
   /**
    * ボタンにマウスオーバーする
-   * @param    evt
+   * @param e
    */
   onOverButton: (e?: any) => void;
   overButton(evt?: createjs.MouseEvent): void;
   /**
    * ボタンからマウスアウトする
-   * @param    evt
+   * @param e
    */
   onOutButton: (e?: any) => void;
   outButton(evt?: createjs.MouseEvent): void;
@@ -129,8 +129,8 @@ export declare class BasicButtonLabelColorConfig {
   selectDown?: string;
   /**
    * 不足している初期値を補う
-   * @param {ui.button.BasicButtonLabelColorConfig} config
-   * @returns {ui.button.BasicButtonLabelColorConfig}
+   * @param {BasicButtonLabelColorConfig} config
+   * @returns {BasicButtonLabelColorConfig}
    */
   static initLabelColorConfig(
     config: BasicButtonLabelColorConfig
