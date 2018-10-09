@@ -8,15 +8,8 @@ import {
 import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 
 /**
- *
- * ui.BasicCheckButton
- *
- * 選択状態を持つボタンをあらわすクラスです
- *
- * @since 2017/05/31 16:09
- * @author m_makino
+ * 選択状態を持つボタンクラスです
  */
-
 export class BasicCheckButton extends BasicClickButton {
   isSelect: boolean = false;
 

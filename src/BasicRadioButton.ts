@@ -1,15 +1,10 @@
-/**
- * ui.button.BasicRadioButton
- * ...
- *
- * @since 2017/05/31 16:09
- * @author 	m_makino
- */
-
 import { BasicCheckButton } from "./BasicCheckButton";
 import { BasicRadioButtonManager } from "./BasicRadioButtonManager";
 import { BasicButtonState } from "./BasicClickButton";
 
+/**
+ * 複数のボタンがセットになり、排他的に選択可能なボタン
+ */
 export class BasicRadioButton extends BasicCheckButton {
   protected manager!: BasicRadioButtonManager;
   protected isUnselectable: boolean = false;

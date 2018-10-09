@@ -11,7 +11,7 @@ export class BasicButtonEvent extends createjs.Event {
   }
 
   clone(): createjs.Event {
-    let evt: BasicButtonEvent = new BasicButtonEvent(
+    const evt: BasicButtonEvent = new BasicButtonEvent(
       this.type as BasicButtonEventType,
       this.bubbles,
       this.cancelable

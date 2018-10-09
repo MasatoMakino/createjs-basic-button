@@ -9,17 +9,9 @@ import { CreatejsCacheUtil } from "createjs-cache-util";
  * 正常動作のために、stageにenableMouseOverを実行する必要があります。
  * stageのインスタンス化のタイミングで実行してください。
  *  stage.enableMouseOver();
- *
- * @since 2017/05/31 16:09
- * @version 2017/05/31 16:48
- * @author m_makino
  */
 
 export class BasicClickButton extends createjs.Container {
-  //--------------------
-  //	メンバー変数
-  //--------------------
-
   isDisable: boolean; //ボタンが使用不可状態か否か
   isPressed: boolean; //ボタンが押されているか否か
   _isOver: boolean; //マウスオーバーしているか否か
@@ -37,10 +29,6 @@ export class BasicClickButton extends createjs.Container {
   protected labelField!: createjs.Text; //ラベル表示用のテキストフィールド
   protected _label!: string; //ラベルの内容
   protected labelColors!: BasicButtonLabelColorConfig;
-
-  //--------------------
-  //	メソッド
-  //--------------------
 
   /**
    * コンストラクタ
@@ -228,9 +216,8 @@ export class BasicClickButton extends createjs.Container {
 
   /**
    * ボタンのイベントリスナを有効にする
-   *
-   *        このメソッドではenableButton(),disableButton()と異なり
-   *        表示状態の変更は行われません。
+   *   このメソッドではenableButton(),disableButton()と異なり
+   *   表示状態の変更は行われません。
    */
   public enableMouseEvent(): void {
     this.mouseEnabled = true;
@@ -238,9 +225,8 @@ export class BasicClickButton extends createjs.Container {
 
   /**
    * ボタンのイベントリスナを無効にする
-   *
-   *        このメソッドではenableButton(),disableButton()と異なり
-   *        表示状態の変更は行われません。
+   *   このメソッドではenableButton(),disableButton()と異なり
+   *   表示状態の変更は行われません。
    */
   public disableMouseEvent(): void {
     this.mouseEnabled = false;
@@ -271,10 +257,6 @@ export class BasicClickButton extends createjs.Container {
       this.updateMaterialVisible(BasicButtonState.NORMAL_DOWN);
     }
   }
-
-  ///////////////////////////
-  //	getter / setter
-  ///////////////////////////
 
   public addLabel(
     x: number,
@@ -319,6 +301,10 @@ export class BasicClickButton extends createjs.Container {
   }
 }
 
+/**
+ * ボタンの状態に応じて表示されるDisplayObjectを格納するクラス。
+ * ボタンのinitMaterial関数に渡す。
+ */
 export class BasicButtonMaterialConfig {
   normal!: DisplayObject;
   over?: DisplayObject;
@@ -330,6 +316,10 @@ export class BasicButtonMaterialConfig {
   selectMarker?: DisplayObject;
 }
 
+/**
+ * テキストラベルの色についてのオプション。
+ * 各ボタンのaddLabel関数でインスタンスに渡す。
+ */
 export class BasicButtonLabelColorConfig {
   normal!: string;
   over?: string;
@@ -357,8 +347,10 @@ export class BasicButtonLabelColorConfig {
   }
 }
 
+/**
+ * ボタン状態を表す定数
+ */
 export enum BasicButtonState {
-  //ボタンの状態を表す定数
   NORMAL = "normal",
   NORMAL_OVER = "normal_over",
   NORMAL_DOWN = "normal_down",

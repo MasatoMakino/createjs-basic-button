@@ -1,19 +1,18 @@
+import { BasicRadioButton } from "./BasicRadioButton";
+import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
+
 /**
  * 排他的に選択されるボタンを制御するクラスです。
  *
  * メンバーのBasicRadioButtonが変更されると、このクラスに変更内容が通知されます。
- * このクラスは変更通知に応じ、他のBasicRadioButtonオブジェクトを変更します。
+ * このクラスは変更通知に応じ、他のBasicRadioButtonオブジェクトの選択状態を変更します。
+ * また、このクラスは変更内容をEventとして発信します。
  *
  * 利用する際には以下のような手順でインスタンス化してください。
  *
  *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager();	//インスタンス化
  *	(BasicRadioButton).selectButton();										//デフォルトで選択されているボタンを指定
- *
- * @since	2017/05/31 16:09
- * @author	m_makino
  */
-import { BasicRadioButton } from "./BasicRadioButton";
-import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 
 export class BasicRadioButtonManager extends createjs.EventDispatcher {
   protected _buttons: BasicRadioButton[];
