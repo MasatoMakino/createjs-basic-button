@@ -22,7 +22,6 @@ export class BasicButtonEvent extends createjs.Event {
   }
 
   toString(): string {
-    //TODO Event.formatToStringの整備
     return "BasicButtonEvent : " + "type = " + this.type;
   }
 }

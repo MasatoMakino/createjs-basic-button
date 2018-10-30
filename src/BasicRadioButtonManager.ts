@@ -129,6 +129,13 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
     return this._buttons;
   }
 
+  /**
+   * buttonValueを検索キーとして、該当するボタンを取得する。
+   * 該当するボタンがない場合はnullを返す。
+   *
+   * @param value
+   * @returns {BasicRadioButton | null}
+   */
   public getButtonWithButtonValue(value: any): BasicRadioButton | null {
     for (let btn of this._buttons) {
       if (

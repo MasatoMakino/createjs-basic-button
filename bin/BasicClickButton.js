@@ -1,4 +1,3 @@
-var Container = createjs.Container;
 import { CreatejsCacheUtil } from "createjs-cache-util";
 /**
  * 基本ボタンクラス。
@@ -11,7 +10,6 @@ import { CreatejsCacheUtil } from "createjs-cache-util";
 export class BasicClickButton extends createjs.Container {
     /**
      * コンストラクタ
-     * @since    2008/06/12 12:15
      */
     constructor() {
         super();
@@ -63,27 +61,8 @@ export class BasicClickButton extends createjs.Container {
         this.addEventListener("mouseout", this.onOutButton);
     }
     initMaterial(materials) {
-        const cloneMaterial = (mat) => {
-            if (mat instanceof Container)
-                return mat.clone(true);
-            return mat.clone();
-        };
-        this._normalMaterial = materials.normal;
-        this._overMaterial = materials.over || cloneMaterial(materials.normal);
-        this._downMaterial = materials.down || cloneMaterial(materials.normal);
-        this._disableMaterial =
-            materials.disable || cloneMaterial(materials.normal);
-        let materialArray = [
-            this._normalMaterial,
-            this._overMaterial,
-            this._downMaterial,
-            this._disableMaterial
-        ];
-        for (let material of materialArray) {
-            if (!material.parent) {
-                this.addChild(material);
-            }
-        }
+        this.material = materials;
+        BasicButtonMaterialConfig.addChild(this, materials);
         this.updateMaterialVisible(this.getButtonState());
         //テキストラベルがあったら最前線に。
         if (this.labelField) {
@@ -92,38 +71,8 @@ export class BasicClickButton extends createjs.Container {
         }
     }
     updateMaterialVisible(type) {
-        if (this._normalMaterial)
-            this._normalMaterial.visible = type === BasicButtonState.NORMAL;
-        if (this._overMaterial)
-            this._overMaterial.visible = type === BasicButtonState.NORMAL_OVER;
-        if (this._downMaterial)
-            this._downMaterial.visible = type === BasicButtonState.NORMAL_DOWN;
-        if (this._disableMaterial)
-            this._disableMaterial.visible = type === BasicButtonState.DISABLE;
-        if (this.labelField) {
-            switch (type) {
-                case BasicButtonState.NORMAL:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.normal
-                    });
-                    break;
-                case BasicButtonState.NORMAL_DOWN:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.down
-                    });
-                    break;
-                case BasicButtonState.NORMAL_OVER:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.over
-                    });
-                    break;
-                case BasicButtonState.DISABLE:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.disable
-                    });
-                    break;
-            }
-        }
+        BasicButtonMaterialConfig.updateVisible(this.material, type);
+        BasicButtonLabelColorConfig.update(this.labelField, this.labelColors, type);
     }
     pressButton(evt) {
         if (!this.checkActivity())
@@ -218,7 +167,6 @@ export class BasicClickButton extends createjs.Container {
         }
     }
     addLabel(x, y, label, font, color, textAlign) {
-        color = BasicButtonLabelColorConfig.initLabelColorConfig(color);
         this.labelColors = color;
         this.labelField = new createjs.Text("", font, color.normal);
         this.labelField.x = x;
@@ -251,28 +199,136 @@ export class BasicClickButton extends createjs.Container {
 }
 /**
  * ボタンの状態に応じて表示されるDisplayObjectを格納するクラス。
- * ボタンのinitMaterial関数に渡す。
  */
 export class BasicButtonMaterialConfig {
+    /**
+     * ボタン上に状態パーツを配置する
+     * @param {BasicClickButton} button
+     * @param {BasicButtonMaterialConfig} material
+     */
+    static addChild(button, material) {
+        const materials = [
+            material.normal,
+            material.over,
+            material.down,
+            material.disable,
+            material.selectNormal,
+            material.selectOver,
+            material.selectDown,
+            material.selectMarker
+        ];
+        for (let mat of materials) {
+            if (mat == null)
+                continue;
+            if (mat.parent)
+                mat.parent.removeChild(mat);
+            button.addChild(mat);
+        }
+    }
+    /**
+     * 可視状態をstateに合わせて更新する
+     * @param {BasicButtonMaterialConfig} material
+     * @param {BasicButtonState} state
+     */
+    static updateVisible(material, state) {
+        this.invisibleAll(material);
+        this.getMaterial(material, state).visible = true;
+        if (material.selectMarker) {
+            const isSelect = state === BasicButtonState.SELECT ||
+                state === BasicButtonState.SELECT_OVER ||
+                state === BasicButtonState.SELECT_DOWN;
+            material.selectMarker.visible = isSelect;
+        }
+    }
+    /**
+     * 全てのパーツを不可視にする。
+     * @param {BasicButtonMaterialConfig} material
+     */
+    static invisibleAll(material) {
+        material.normal.visible = false;
+        if (material.over)
+            material.over.visible = false;
+        if (material.down)
+            material.down.visible = false;
+        if (material.disable)
+            material.disable.visible = false;
+        if (material.selectNormal)
+            material.selectNormal.visible = false;
+        if (material.selectOver)
+            material.selectOver.visible = false;
+        if (material.selectDown)
+            material.selectDown.visible = false;
+        if (material.selectMarker)
+            material.selectMarker.visible = false;
+    }
+    /**
+     * stateに対応する状態パーツを取り出す
+     * @param {BasicButtonMaterialConfig} material
+     * @param {BasicButtonState} state
+     * @returns {createjs.DisplayObject}
+     */
+    static getMaterial(material, state) {
+        switch (state) {
+            case BasicButtonState.DISABLE:
+                if (material.disable)
+                    return material.disable;
+                break;
+            case BasicButtonState.NORMAL_OVER:
+                if (material.over)
+                    return material.over;
+                break;
+            case BasicButtonState.NORMAL_DOWN:
+                if (material.down)
+                    return material.down;
+                break;
+            case BasicButtonState.SELECT:
+                if (material.selectNormal)
+                    return material.selectNormal;
+                break;
+            case BasicButtonState.SELECT_OVER:
+                if (material.selectOver)
+                    return material.selectOver;
+                break;
+            case BasicButtonState.SELECT_DOWN:
+                if (material.selectDown)
+                    return material.selectDown;
+                break;
+        }
+        return material.normal;
+    }
 }
 /**
  * テキストラベルの色についてのオプション。
  * 各ボタンのaddLabel関数でインスタンスに渡す。
  */
 export class BasicButtonLabelColorConfig {
-    /**
-     * 不足している初期値を補う
-     * @param {BasicButtonLabelColorConfig} config
-     * @returns {BasicButtonLabelColorConfig}
-     */
-    static initLabelColorConfig(config) {
-        config.over = config.over || config.normal;
-        config.down = config.down || config.normal;
-        config.disable = config.disable || config.normal;
-        config.selectNormal = config.selectNormal || config.normal;
-        config.selectOver = config.selectOver || config.normal;
-        config.selectDown = config.selectDown || config.normal;
-        return config;
+    static update(field, colors, state) {
+        if (field == null)
+            return;
+        const option = {
+            color: colors.normal
+        };
+        switch (state) {
+            case BasicButtonState.NORMAL_DOWN:
+                option.color = colors.down || colors.normal;
+                break;
+            case BasicButtonState.NORMAL_OVER:
+                option.color = colors.over || colors.normal;
+                break;
+            case BasicButtonState.DISABLE:
+                option.color = colors.disable || colors.normal;
+                break;
+            case BasicButtonState.SELECT:
+                option.color = colors.selectNormal || colors.normal;
+                break;
+            case BasicButtonState.SELECT_DOWN:
+                option.color = colors.selectDown || colors.normal;
+                break;
+            case BasicButtonState.SELECT_OVER:
+                option.color = colors.selectOver || colors.normal;
+                break;
+        }
+        CreatejsCacheUtil.cacheText(field, field.text, option);
     }
 }
 /**

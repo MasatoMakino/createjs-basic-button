@@ -1,17 +1,10 @@
 /// <reference types="easeljs" />
-import DisplayObject = createjs.DisplayObject;
-import { BasicClickButton, BasicButtonState, BasicButtonMaterialConfig } from "./BasicClickButton";
+import { BasicClickButton, BasicButtonState } from "./BasicClickButton";
 /**
  * 選択状態を持つボタンクラスです
  */
 export declare class BasicCheckButton extends BasicClickButton {
     isSelect: boolean;
-    protected _selectNormalMaterial: DisplayObject;
-    protected _selectOverMaterial: DisplayObject;
-    protected _selectDownMaterial: DisplayObject;
-    protected _selectMarkerMaterial?: DisplayObject;
-    protected updateMaterialVisible(type: BasicButtonState): void;
-    initMaterial(materials: BasicButtonMaterialConfig): void;
     pressButton(evt?: createjs.MouseEvent): void;
     releaseButton(evt?: createjs.MouseEvent): void;
     overButton(evt?: createjs.MouseEvent): void;

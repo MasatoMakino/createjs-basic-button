@@ -1,5 +1,6 @@
 /// <reference types="easeljs" />
 import DisplayObject = createjs.DisplayObject;
+import Text = createjs.Text;
 /**
  * 基本ボタンクラス。
  * 選択状態を持たず、クリックした時点で結果が反映されるタイプのボタンです。
@@ -13,16 +14,12 @@ export declare class BasicClickButton extends createjs.Container {
     isPressed: boolean;
     _isOver: boolean;
     protected _buttonValue: any;
-    protected _normalMaterial: DisplayObject;
-    protected _overMaterial: DisplayObject;
-    protected _downMaterial: DisplayObject;
-    protected _disableMaterial: DisplayObject;
+    protected material: BasicButtonMaterialConfig;
     protected labelField: createjs.Text;
     protected _label: string;
     protected labelColors: BasicButtonLabelColorConfig;
     /**
      * コンストラクタ
-     * @since    2008/06/12 12:15
      */
     constructor();
     private setMouseEvents;
@@ -98,7 +95,6 @@ export declare class BasicClickButton extends createjs.Container {
 }
 /**
  * ボタンの状態に応じて表示されるDisplayObjectを格納するクラス。
- * ボタンのinitMaterial関数に渡す。
  */
 export declare class BasicButtonMaterialConfig {
     normal: DisplayObject;
@@ -109,6 +105,30 @@ export declare class BasicButtonMaterialConfig {
     selectOver?: DisplayObject;
     selectDown?: DisplayObject;
     selectMarker?: DisplayObject;
+    /**
+     * ボタン上に状態パーツを配置する
+     * @param {BasicClickButton} button
+     * @param {BasicButtonMaterialConfig} material
+     */
+    static addChild(button: BasicClickButton, material: BasicButtonMaterialConfig): void;
+    /**
+     * 可視状態をstateに合わせて更新する
+     * @param {BasicButtonMaterialConfig} material
+     * @param {BasicButtonState} state
+     */
+    static updateVisible(material: BasicButtonMaterialConfig, state: BasicButtonState): void;
+    /**
+     * 全てのパーツを不可視にする。
+     * @param {BasicButtonMaterialConfig} material
+     */
+    private static invisibleAll;
+    /**
+     * stateに対応する状態パーツを取り出す
+     * @param {BasicButtonMaterialConfig} material
+     * @param {BasicButtonState} state
+     * @returns {createjs.DisplayObject}
+     */
+    private static getMaterial;
 }
 /**
  * テキストラベルの色についてのオプション。
@@ -122,12 +142,7 @@ export declare class BasicButtonLabelColorConfig {
     selectNormal?: string;
     selectOver?: string;
     selectDown?: string;
-    /**
-     * 不足している初期値を補う
-     * @param {BasicButtonLabelColorConfig} config
-     * @returns {BasicButtonLabelColorConfig}
-     */
-    static initLabelColorConfig(config: BasicButtonLabelColorConfig): BasicButtonLabelColorConfig;
+    static update(field: Text, colors: BasicButtonLabelColorConfig, state: BasicButtonState): void;
 }
 /**
  * ボタン状態を表す定数

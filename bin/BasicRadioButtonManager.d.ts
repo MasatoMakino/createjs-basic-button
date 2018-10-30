@@ -39,6 +39,13 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     getButtonValue(): any;
     refreshButtons(value: any): void;
     readonly buttons: BasicRadioButton[];
+    /**
+     * buttonValueを検索キーとして、該当するボタンを取得する。
+     * 該当するボタンがない場合はnullを返す。
+     *
+     * @param value
+     * @returns {BasicRadioButton | null}
+     */
     getButtonWithButtonValue(value: any): BasicRadioButton | null;
 }
 //# sourceMappingURL=BasicRadioButtonManager.d.ts.map

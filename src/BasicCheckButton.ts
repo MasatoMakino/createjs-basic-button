@@ -1,10 +1,5 @@
-import DisplayObject = createjs.DisplayObject;
 import { CreatejsCacheUtil } from "createjs-cache-util";
-import {
-  BasicClickButton,
-  BasicButtonState,
-  BasicButtonMaterialConfig
-} from "./BasicClickButton";
+import { BasicClickButton, BasicButtonState } from "./BasicClickButton";
 import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 
 /**
@@ -12,76 +7,6 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
  */
 export class BasicCheckButton extends BasicClickButton {
   isSelect: boolean = false;
-
-  //状態マテリアル 状態によって表示が切り替わるもの。
-  //共通するパーツはこの上に配置する。
-  protected _selectNormalMaterial!: DisplayObject;
-  protected _selectOverMaterial!: DisplayObject;
-  protected _selectDownMaterial!: DisplayObject;
-  protected _selectMarkerMaterial?: DisplayObject;
-
-  protected updateMaterialVisible(type: BasicButtonState) {
-    if (this._selectNormalMaterial)
-      this._selectNormalMaterial.visible = type === BasicButtonState.SELECT;
-    if (this._selectOverMaterial)
-      this._selectOverMaterial.visible = type === BasicButtonState.SELECT_OVER;
-    if (this._selectDownMaterial)
-      this._selectDownMaterial.visible = type === BasicButtonState.SELECT_DOWN;
-
-    if (this._selectMarkerMaterial) {
-      const isSelect =
-        type === BasicButtonState.SELECT ||
-        type === BasicButtonState.SELECT_OVER ||
-        type === BasicButtonState.SELECT_DOWN;
-
-      this._selectMarkerMaterial.visible = isSelect;
-    }
-
-    if (this.labelField) {
-      switch (type) {
-        case BasicButtonState.SELECT:
-          CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-            color: this.labelColors.selectNormal
-          });
-          break;
-        case BasicButtonState.SELECT_DOWN:
-          CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-            color: this.labelColors.selectDown
-          });
-          break;
-        case BasicButtonState.SELECT_OVER:
-          CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-            color: this.labelColors.selectOver
-          });
-          break;
-      }
-    }
-
-    super.updateMaterialVisible(type);
-  }
-
-  public initMaterial(materials: BasicButtonMaterialConfig): void {
-    this._selectNormalMaterial =
-      materials.selectNormal || materials.normal.clone();
-    this._selectOverMaterial = materials.selectOver || materials.normal.clone();
-    this._selectDownMaterial = materials.selectDown || materials.normal.clone();
-
-    this._selectMarkerMaterial = materials.selectMarker;
-
-    let selectMaterials = [
-      this._selectNormalMaterial,
-      this._selectOverMaterial,
-      this._selectDownMaterial,
-      this._selectMarkerMaterial
-    ];
-    for (let material of selectMaterials) {
-      if (material && !material.parent) {
-        this.addChild(material);
-      }
-    }
-
-    super.initMaterial(materials);
-  }
 
   public pressButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;

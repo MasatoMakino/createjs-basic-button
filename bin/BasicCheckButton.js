@@ -1,4 +1,3 @@
-import { CreatejsCacheUtil } from "createjs-cache-util";
 import { BasicClickButton, BasicButtonState } from "./BasicClickButton";
 import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 /**
@@ -8,59 +7,6 @@ export class BasicCheckButton extends BasicClickButton {
     constructor() {
         super(...arguments);
         this.isSelect = false;
-    }
-    updateMaterialVisible(type) {
-        if (this._selectNormalMaterial)
-            this._selectNormalMaterial.visible = type === BasicButtonState.SELECT;
-        if (this._selectOverMaterial)
-            this._selectOverMaterial.visible = type === BasicButtonState.SELECT_OVER;
-        if (this._selectDownMaterial)
-            this._selectDownMaterial.visible = type === BasicButtonState.SELECT_DOWN;
-        if (this._selectMarkerMaterial) {
-            const isSelect = type === BasicButtonState.SELECT ||
-                type === BasicButtonState.SELECT_OVER ||
-                type === BasicButtonState.SELECT_DOWN;
-            this._selectMarkerMaterial.visible = isSelect;
-        }
-        if (this.labelField) {
-            switch (type) {
-                case BasicButtonState.SELECT:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.selectNormal
-                    });
-                    break;
-                case BasicButtonState.SELECT_DOWN:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.selectDown
-                    });
-                    break;
-                case BasicButtonState.SELECT_OVER:
-                    CreatejsCacheUtil.cacheText(this.labelField, this.labelField.text, {
-                        color: this.labelColors.selectOver
-                    });
-                    break;
-            }
-        }
-        super.updateMaterialVisible(type);
-    }
-    initMaterial(materials) {
-        this._selectNormalMaterial =
-            materials.selectNormal || materials.normal.clone();
-        this._selectOverMaterial = materials.selectOver || materials.normal.clone();
-        this._selectDownMaterial = materials.selectDown || materials.normal.clone();
-        this._selectMarkerMaterial = materials.selectMarker;
-        let selectMaterials = [
-            this._selectNormalMaterial,
-            this._selectOverMaterial,
-            this._selectDownMaterial,
-            this._selectMarkerMaterial
-        ];
-        for (let material of selectMaterials) {
-            if (material && !material.parent) {
-                this.addChild(material);
-            }
-        }
-        super.initMaterial(materials);
     }
     pressButton(evt) {
         if (!this.checkActivity())
