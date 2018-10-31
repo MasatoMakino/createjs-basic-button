@@ -12,7 +12,7 @@ import Text = createjs.Text;
 export declare class BasicClickButton extends createjs.Container {
     isDisable: boolean;
     isPressed: boolean;
-    _isOver: boolean;
+    protected _isOver: boolean;
     protected _buttonValue: any;
     protected material: ButtonMaterialSet;
     protected _labelField: createjs.Text;

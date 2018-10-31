@@ -22,17 +22,15 @@ export class BasicRadioButton extends BasicCheckButton {
 
   public releaseButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;
-    if (!this.isPressed) return;
 
+    if (!this.isPressed) return;
     this.isPressed = false;
 
     if (!this.isSelect) {
       this.selectButton();
-      this.updateMaterialVisible(BasicButtonState.SELECT_OVER);
       if (this.manager) this.manager.releaseButton(this);
     } else {
       this.manager.unselectAllButtons();
-      this.updateMaterialVisible(BasicButtonState.NORMAL);
       if (this.manager) this.manager.releaseButton(this);
     }
   }
@@ -44,11 +42,16 @@ export class BasicRadioButton extends BasicCheckButton {
 
   public outButton(evt?: createjs.MouseEvent): void {
     super.outButton(evt);
+
+    if (!this.isDisable && !this._isAbleToDeselect && this.isSelect) {
+      this.updateMaterialVisible(BasicButtonState.SELECT);
+    }
     if (this.manager) this.manager.outButton(this);
   }
 
   public checkActivity(): boolean {
     if (this.isDisable) return false;
+    if (!this.mouseEnabled) return false;
     if (this.isSelect && !this._isAbleToDeselect) return false;
     return true;
   }

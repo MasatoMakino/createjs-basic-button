@@ -27,13 +27,11 @@ export class BasicRadioButton extends BasicCheckButton {
         this.isPressed = false;
         if (!this.isSelect) {
             this.selectButton();
-            this.updateMaterialVisible(BasicButtonState.SELECT_OVER);
             if (this.manager)
                 this.manager.releaseButton(this);
         }
         else {
             this.manager.unselectAllButtons();
-            this.updateMaterialVisible(BasicButtonState.NORMAL);
             if (this.manager)
                 this.manager.releaseButton(this);
         }
@@ -45,11 +43,16 @@ export class BasicRadioButton extends BasicCheckButton {
     }
     outButton(evt) {
         super.outButton(evt);
+        if (!this.isDisable && !this._isAbleToDeselect && this.isSelect) {
+            this.updateMaterialVisible(BasicButtonState.SELECT);
+        }
         if (this.manager)
             this.manager.outButton(this);
     }
     checkActivity() {
         if (this.isDisable)
+            return false;
+        if (!this.mouseEnabled)
             return false;
         if (this.isSelect && !this._isAbleToDeselect)
             return false;

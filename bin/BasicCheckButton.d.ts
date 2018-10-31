@@ -43,7 +43,6 @@ export declare class BasicCheckButton extends BasicClickButton {
      * ボタンを操作可能にする。
      */
     enableButton(): void;
-    checkRollOverActivity(): boolean;
     getButtonState(): BasicButtonState;
     /**
      * 選択状態を取得する。

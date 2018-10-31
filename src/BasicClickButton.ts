@@ -12,9 +12,9 @@ import Text = createjs.Text;
  */
 
 export class BasicClickButton extends createjs.Container {
-  isDisable: boolean; //ボタンが使用不可状態か否か
-  isPressed: boolean; //ボタンが押されているか否か
-  _isOver: boolean; //マウスオーバーしているか否か
+  isDisable: boolean = false; //ボタンが使用不可状態か否か
+  isPressed: boolean = false; //ボタンが押されているか否か
+  protected _isOver: boolean = false; //マウスオーバーしているか否か
 
   protected _buttonValue: any = null; //このボタンに割り当てられた値
   protected material!: ButtonMaterialSet; //状態マテリアル 状態によって表示が切り替わるもの。
@@ -30,9 +30,6 @@ export class BasicClickButton extends createjs.Container {
   constructor() {
     super();
 
-    this.isDisable = false;
-    this.isPressed = false;
-    this._isOver = false;
     //childのマウスイベントが生きていると正常に動作しないため、処理をここで止める。
     this.mouseChildren = false;
 
@@ -131,8 +128,9 @@ export class BasicClickButton extends createjs.Container {
   };
 
   public overButton(evt?: createjs.MouseEvent): void {
-    if (!this.checkActivity()) return;
     this._isOver = true;
+
+    if (!this.checkActivity()) return;
     this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
   }
 
@@ -151,9 +149,10 @@ export class BasicClickButton extends createjs.Container {
    * @param {createjs.MouseEvent} evt
    */
   public outButton(evt?: createjs.MouseEvent): void {
-    if (!this.checkActivity()) return;
     this._isOver = false;
     this.isPressed = false;
+
+    if (!this.checkActivity()) return;
     this.updateMaterialVisible(BasicButtonState.NORMAL);
   }
 

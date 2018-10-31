@@ -2,7 +2,9 @@ import {
   BasicClickButton,
   BasicButtonMaterialConfig,
   BasicButtonEventType,
-  BasicCheckButton
+  BasicCheckButton,
+  BasicRadioButton,
+  BasicRadioButtonManager
 } from "../../bin/BasicButton";
 
 let stage;
@@ -23,6 +25,7 @@ const onDomContentsLoaded = () => {
 
   testButton();
   testCheckButton();
+  testRadioButtons();
 };
 
 const getMaterial = color => {
@@ -37,11 +40,11 @@ const getMaterial = color => {
 const getMaterialSet = () => {
   return {
     normal: getMaterial("#0f0"),
-    over: getMaterial("#0fF"),
+    over: getMaterial("#6f6"),
     down: getMaterial("#f0f"),
     disable: getMaterial("#666"),
     selectNormal: getMaterial("#0ff"),
-    selectOver: getMaterial("#Ff0"),
+    selectOver: getMaterial("#6ff"),
     selectDown: getMaterial("#f8f")
   };
 };
@@ -68,6 +71,23 @@ const testCheckButton = () => {
   testButton.addEventListener("click", e => {
     console.log(e);
   });
+};
+
+const getRadioButton = (x, value) => {
+  const testButton = new BasicRadioButton();
+  testButton.initMaterial(getMaterialSet());
+  testButton.x = x;
+  testButton.y = 360;
+  stage.addChild(testButton);
+  return testButton;
+};
+
+const testRadioButtons = () => {
+  const manager = new BasicRadioButtonManager();
+  manager.addButton(getRadioButton(180 * 1, "button01"));
+  manager.addButton(getRadioButton(180 * 2, "button02"));
+  manager.addButton(getRadioButton(180 * 3, "button03"));
+  manager.buttons[0].initSelection(true);
 };
 
 /**

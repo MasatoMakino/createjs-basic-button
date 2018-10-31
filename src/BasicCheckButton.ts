@@ -41,17 +41,23 @@ export class BasicCheckButton extends BasicClickButton {
    * @param {createjs.MouseEvent} evt
    */
   public overButton(evt?: createjs.MouseEvent): void {
-    if (!this.checkRollOverActivity()) return;
+    super.overButton(evt);
 
-    if (this.isSelect) this.updateMaterialVisible(BasicButtonState.SELECT_OVER);
-    else super.overButton(evt);
+    if (!this.checkActivity()) return;
+    const state = this.isSelect
+      ? BasicButtonState.SELECT_OVER
+      : BasicButtonState.NORMAL_OVER;
+    this.updateMaterialVisible(state);
   }
 
   public outButton(evt?: createjs.MouseEvent): void {
-    if (!this.checkRollOverActivity()) return;
-    this.isPressed = false;
-    if (this.isSelect) this.updateMaterialVisible(BasicButtonState.SELECT);
-    else super.outButton(evt);
+    super.outButton(evt);
+
+    if (!this.checkActivity()) return;
+    const state = this.isSelect
+      ? BasicButtonState.SELECT
+      : BasicButtonState.NORMAL;
+    this.updateMaterialVisible(state);
   }
 
   /**
@@ -125,10 +131,6 @@ export class BasicCheckButton extends BasicClickButton {
     if (this.isSelect) this.updateMaterialVisible(BasicButtonState.SELECT);
     else super.enableButton();
     this.enableMouseEvent();
-  }
-
-  public checkRollOverActivity(): boolean {
-    return !this.isDisable;
   }
 
   public getButtonState(): BasicButtonState {
