@@ -4,7 +4,8 @@ import {
   BasicButtonEventType,
   BasicCheckButton,
   BasicRadioButton,
-  BasicRadioButtonManager
+  BasicRadioButtonManager,
+  BasicButtonEvent
 } from "../../bin/BasicButton";
 
 let stage;
@@ -25,8 +26,10 @@ const onDomContentsLoaded = () => {
 
   testButton();
   testCheckButton();
+  testDisableButton();
   testRadioButtons();
   testRadioMarkerButtons();
+  testRadioLabelButtons();
 };
 
 const getMaterial = color => {
@@ -70,9 +73,25 @@ const testButton = () => {
 const testCheckButton = () => {
   const testButton = new BasicCheckButton();
   testButton.initMaterial(getMaterialSet());
-  testButton.x = 360;
+  testButton.x = 180 * 2;
+  testButton.y = 180;
+  addLabel(testButton, "C");
+  stage.addChild(testButton);
+
+  testButton.addEventListener("click", e => {
+    console.log(e);
+  });
+};
+
+const testDisableButton = () => {
+  const testButton = new BasicCheckButton();
+  testButton.initMaterial(getMaterialSet());
+  testButton.x = 180 * 3;
   testButton.y = 180;
   stage.addChild(testButton);
+
+  addLabel(testButton, "D");
+  testButton.disableButton();
 
   testButton.addEventListener("click", e => {
     console.log(e);
@@ -100,6 +119,10 @@ const testRadioButtons = () => {
   manager.addButton(getRadioButton(180 * 2, "button02"));
   manager.addButton(getRadioButton(180 * 3, "button03"));
   manager.buttons[0].initSelection(true);
+  manager.addEventListener(BasicButtonEventType.SELECTED, e => {
+    const evt = e;
+    console.log(evt.buttonValue);
+  });
 };
 
 const getMarker = () => {
@@ -118,6 +141,35 @@ const testRadioMarkerButtons = () => {
   manager.addButton(getRadioButton(180 * 2, "button02", 480, getMarker()));
   manager.addButton(getRadioButton(180 * 3, "button03", 480, getMarker()));
   manager.buttons[0].initSelection(true);
+};
+
+const testRadioLabelButtons = () => {
+  const manager = new BasicRadioButtonManager();
+
+  manager.addButton(getRadioButton(180 * 1, "button01", 560, getMarker()));
+  manager.addButton(getRadioButton(180 * 2, "button02", 560, getMarker()));
+  manager.addButton(getRadioButton(180 * 3, "button03", 560, getMarker()));
+
+  for (let btn of manager.buttons) {
+    addLabel(btn, btn.buttonValue);
+  }
+  manager.buttons[0].initSelection(true);
+};
+
+const addLabel = (btn, label) => {
+  btn.addLabel(64 / 2, 32 / 2, label, "16px sans", getLabelColors(), "center");
+};
+const getLabelColors = () => {
+  const colors = {
+    normal: "#111",
+    over: "#333",
+    down: "#222",
+    disable: "#888",
+    selectNormal: "#22f",
+    selectOver: "#44f",
+    selectDown: "#99f"
+  };
+  return colors;
 };
 
 /**

@@ -230,6 +230,8 @@ export class BasicClickButton extends createjs.Container {
     this._labelField.x = x;
     this._labelField.y = y;
     if (textAlign) this._labelField.textAlign = textAlign;
+    this._labelField.textBaseline = "alphabetic";
+    this._labelField.mouseEnabled = false;
     CreatejsCacheUtil.cacheText(this._labelField, label);
     this.addChild(this._labelField);
   }
