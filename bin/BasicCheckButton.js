@@ -1,13 +1,17 @@
 import { BasicClickButton, BasicButtonState } from "./BasicClickButton";
 import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 /**
- * 選択状態を持つボタンクラスです
+ * 選択状態を持つボタンクラス。
  */
 export class BasicCheckButton extends BasicClickButton {
     constructor() {
         super(...arguments);
         this.isSelect = false;
     }
+    /**
+     * ボタンがmousedownされた際の処理。
+     * @param {createjs.MouseEvent} evt
+     */
     pressButton(evt) {
         if (!this.checkActivity())
             return;
@@ -19,6 +23,10 @@ export class BasicCheckButton extends BasicClickButton {
             super.pressButton(evt);
         }
     }
+    /**
+     * ボタンがmouseupされた際の処理。
+     * @param {createjs.MouseEvent} evt
+     */
     releaseButton(evt) {
         if (!this.checkActivity())
             return;
@@ -26,10 +34,14 @@ export class BasicCheckButton extends BasicClickButton {
             return;
         this.isPressed = false;
         if (this.isSelect)
-            this.unselectButton(evt);
+            this.deselectButton(evt);
         else
             this.selectButton(evt);
     }
+    /**
+     * ボタンがmouseoverされた際の処理
+     * @param {createjs.MouseEvent} evt
+     */
     overButton(evt) {
         if (!this.checkRollOverActivity())
             return;
@@ -47,6 +59,10 @@ export class BasicCheckButton extends BasicClickButton {
         else
             super.outButton(evt);
     }
+    /**
+     * @override
+     * @param {createjs.MouseEvent} evt
+     */
     selectButton(evt) {
         if (this.isSelect)
             return;
@@ -57,7 +73,7 @@ export class BasicCheckButton extends BasicClickButton {
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
     }
-    unselectButton(evt) {
+    deselectButton(evt) {
         if (!this.isSelect)
             return;
         if (!this.isDisable)
@@ -67,13 +83,23 @@ export class BasicCheckButton extends BasicClickButton {
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
     }
-    reverseSelectState(evt) {
+    /**
+     * 選択状態を反転させる。
+     * ButtonEvent.SELECTは発行しない。
+     * @param {createjs.MouseEvent} evt
+     */
+    reverseSelection(evt) {
         this.isSelect = !this.isSelect;
         if (this.isSelect)
             this.updateMaterialVisible(BasicButtonState.SELECT);
         else
             this.updateMaterialVisible(BasicButtonState.NORMAL);
     }
+    /**
+     * 選択状態の初期化のみを行う。
+     * ButtonEvent.SELECTは発行しない。
+     * @param {boolean} isSelect
+     */
     initSelection(isSelect) {
         this.isSelect = isSelect;
         if (isSelect)
@@ -81,6 +107,9 @@ export class BasicCheckButton extends BasicClickButton {
         else
             this.updateMaterialVisible(BasicButtonState.NORMAL);
     }
+    /**
+     * ボタンを操作可能にする。
+     */
     enableButton() {
         this.isDisable = false;
         if (this.isSelect)
@@ -102,12 +131,10 @@ export class BasicCheckButton extends BasicClickButton {
                 return BasicButtonState.NORMAL;
         }
     }
-    updateButtonDisplay() {
-        this.updateMaterialVisible(this.getButtonState());
-    }
-    ///////////////////////////
-    //	getter / setter
-    ///////////////////////////
+    /**
+     * 選択状態を取得する。
+     * @returns {boolean}
+     */
     get selection() {
         return this.isSelect;
     }

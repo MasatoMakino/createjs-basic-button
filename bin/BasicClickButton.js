@@ -14,6 +14,16 @@ export class BasicClickButton extends createjs.Container {
     constructor() {
         super();
         this._buttonValue = null; //このボタンに割り当てられた値
+        this.onAdded = (e) => {
+            if (this.stage) {
+                this.removeEventListener("added", this.onAdded);
+                if (this.stage._mouseOverIntervalID == null) {
+                    console.warn("BasicButton : stageはmouseoverイベントを処理していません。" +
+                        "そのためボタンのマウスオーバー処理が正常に働いていません。" +
+                        "stage.enableMouseOver()を実行してからボタンを配置してください。");
+                }
+            }
+        };
         /**
          * ボタンを押す
          * @param e
@@ -53,26 +63,34 @@ export class BasicClickButton extends createjs.Container {
         this.mouseChildren = false;
         this.cursor = "pointer";
         this.setMouseEvents();
+        this.addEventListener("added", this.onAdded);
     }
+    /**
+     * ボタンに対するマウスハンドリングを開始する。
+     */
     setMouseEvents() {
         this.addEventListener("mousedown", this.onPressButton);
         this.addEventListener("pressup", this.onReleaseButton);
         this.addEventListener("rollover", this.onOverButton);
         this.addEventListener("mouseout", this.onOutButton);
     }
+    /**
+     * ボタンに状態マテリアルを設定する。
+     * @param {ButtonMaterialSet} materials
+     */
     initMaterial(materials) {
         this.material = materials;
-        BasicButtonMaterialConfig.addChild(this, materials);
+        ButtonMaterialSet.addChild(this, materials);
         this.updateMaterialVisible(this.getButtonState());
         //テキストラベルがあったら最前線に。
-        if (this.labelField) {
-            this.removeChild(this.labelField);
-            this.addChild(this.labelField);
+        if (this._labelField) {
+            this.removeChild(this._labelField);
+            this.addChild(this._labelField);
         }
     }
     updateMaterialVisible(type) {
-        BasicButtonMaterialConfig.updateVisible(this.material, type);
-        BasicButtonLabelColorConfig.update(this.labelField, this.labelColors, type);
+        ButtonMaterialSet.updateVisible(this.material, type);
+        ButtonLabelColorSet.update(this._labelField, this.labelColors, type);
     }
     pressButton(evt) {
         if (!this.checkActivity())
@@ -95,6 +113,11 @@ export class BasicClickButton extends createjs.Container {
         this._isOver = true;
         this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
     }
+    /**
+     * ボタンからマウスアウトした際の処理。
+     * 状態と表示を更新する。
+     * @param {createjs.MouseEvent} evt
+     */
     outButton(evt) {
         if (!this.checkActivity())
             return;
@@ -159,30 +182,39 @@ export class BasicClickButton extends createjs.Container {
             return BasicButtonState.NORMAL;
     }
     /**
-     * ボタンの状態表示を更新する
+     * ボタンラベルを初期化する。
+     * @param {number} x ラベル位置
+     * @param {number} y ラベル位置
+     * @param {string} label ラベルに表示する文言
+     * @param {string} font フォント設定 createjs.Textのfont指定に準じる。
+     * @param {ButtonLabelColorSet} color
+     * @param {string} textAlign
      */
-    updateButtonDisplay() {
-        if (this.isPressed) {
-            this.updateMaterialVisible(BasicButtonState.NORMAL_DOWN);
-        }
-    }
     addLabel(x, y, label, font, color, textAlign) {
         this.labelColors = color;
-        this.labelField = new createjs.Text("", font, color.normal);
-        this.labelField.x = x;
-        this.labelField.y = y;
+        this._labelField = new createjs.Text("", font, color.normal);
+        this._labelField.x = x;
+        this._labelField.y = y;
         if (textAlign)
-            this.labelField.textAlign = textAlign;
-        CreatejsCacheUtil.cacheText(this.labelField, label);
-        this.addChild(this.labelField);
+            this._labelField.textAlign = textAlign;
+        CreatejsCacheUtil.cacheText(this._labelField, label);
+        this.addChild(this._labelField);
     }
+    /**
+     * ボタンラベルに表示されている文言を取得する。
+     * @returns {string}
+     */
     get label() {
         return this._label;
     }
+    /**
+     * ボタンラベルの文言を更新する。
+     * @param {string} value
+     */
     set label(value) {
         this._label = value;
-        if (this.labelField) {
-            CreatejsCacheUtil.cacheText(this.labelField, value);
+        if (this._labelField) {
+            CreatejsCacheUtil.cacheText(this._labelField, value);
         }
     }
     get isOver() {
@@ -200,11 +232,11 @@ export class BasicClickButton extends createjs.Container {
 /**
  * ボタンの状態に応じて表示されるDisplayObjectを格納するクラス。
  */
-export class BasicButtonMaterialConfig {
+export class ButtonMaterialSet {
     /**
      * ボタン上に状態パーツを配置する
      * @param {BasicClickButton} button
-     * @param {BasicButtonMaterialConfig} material
+     * @param {ButtonMaterialSet} material
      */
     static addChild(button, material) {
         const materials = [
@@ -227,7 +259,7 @@ export class BasicButtonMaterialConfig {
     }
     /**
      * 可視状態をstateに合わせて更新する
-     * @param {BasicButtonMaterialConfig} material
+     * @param {ButtonMaterialSet} material
      * @param {BasicButtonState} state
      */
     static updateVisible(material, state) {
@@ -242,7 +274,7 @@ export class BasicButtonMaterialConfig {
     }
     /**
      * 全てのパーツを不可視にする。
-     * @param {BasicButtonMaterialConfig} material
+     * @param {ButtonMaterialSet} material
      */
     static invisibleAll(material) {
         material.normal.visible = false;
@@ -263,7 +295,7 @@ export class BasicButtonMaterialConfig {
     }
     /**
      * stateに対応する状態パーツを取り出す
-     * @param {BasicButtonMaterialConfig} material
+     * @param {ButtonMaterialSet} material
      * @param {BasicButtonState} state
      * @returns {createjs.DisplayObject}
      */
@@ -301,7 +333,7 @@ export class BasicButtonMaterialConfig {
  * テキストラベルの色についてのオプション。
  * 各ボタンのaddLabel関数でインスタンスに渡す。
  */
-export class BasicButtonLabelColorConfig {
+export class ButtonLabelColorSet {
     static update(field, colors, state) {
         if (field == null)
             return;

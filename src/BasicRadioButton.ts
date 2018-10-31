@@ -3,11 +3,11 @@ import { BasicRadioButtonManager } from "./BasicRadioButtonManager";
 import { BasicButtonState } from "./BasicClickButton";
 
 /**
- * 複数のボタンがセットになり、排他的に選択可能なボタン
+ * 排他的に選択可能なボタン。ラジオボタンのセットはBasicRadioButtonManagerで設定する。
  */
 export class BasicRadioButton extends BasicCheckButton {
-  protected manager!: BasicRadioButtonManager;
-  protected isUnselectable: boolean = false;
+  protected manager!: BasicRadioButtonManager; //このボタンが所属するラジオボタングループ。
+  protected _isAbleToDeselect: boolean = false; //ボタン自体が解除可能か。本来ラジオボタンは自身では選択を解除できない。
 
   public setManager(manager: BasicRadioButtonManager): void {
     this.manager = manager;
@@ -49,7 +49,7 @@ export class BasicRadioButton extends BasicCheckButton {
 
   public checkActivity(): boolean {
     if (this.isDisable) return false;
-    if (this.isSelect && !this.isUnselectable) return false;
+    if (this.isSelect && !this._isAbleToDeselect) return false;
     return true;
   }
 
@@ -63,7 +63,7 @@ export class BasicRadioButton extends BasicCheckButton {
     if (isSelect) this.manager.unselectOthers(this, false);
   }
 
-  public setUnselectable(isUnselectable: boolean): void {
-    this.isUnselectable = isUnselectable;
+  public set isAbleToDeselect(value: boolean) {
+    this._isAbleToDeselect = value;
   }
 }

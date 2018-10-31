@@ -1,8 +1,8 @@
 export { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 export {
   BasicClickButton,
-  BasicButtonMaterialConfig,
-  BasicButtonLabelColorConfig,
+  ButtonMaterialSet,
+  ButtonLabelColorSet,
   BasicButtonState
 } from "./BasicClickButton";
 export { BasicCheckButton } from "./BasicCheckButton";

@@ -10,8 +10,8 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
  *
  * 利用する際には以下のような手順でインスタンス化してください。
  *
- *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager();	//インスタンス化
- *	(BasicRadioButton).selectButton();										//デフォルトで選択されているボタンを指定
+ *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
+ *	(BasicRadioButton).selectButton(); //デフォルトで選択されているボタンを指定
  */
 
 export class BasicRadioButtonManager extends createjs.EventDispatcher {
@@ -50,7 +50,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
 
     for (let btn of this._buttons) {
       if (btn != selectedButton) {
-        btn.unselectButton();
+        btn.deselectButton();
       }
     }
 
@@ -67,7 +67,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
   public unselectAllButtons(): void {
     this.selected = undefined;
     for (let btn of this._buttons) {
-      btn.unselectButton();
+      btn.deselectButton();
     }
 
     let evt: BasicButtonEvent = new BasicButtonEvent(

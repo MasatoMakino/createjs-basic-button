@@ -28,5 +28,5 @@ export class BasicButtonEvent extends createjs.Event {
 
 export enum BasicButtonEventType {
   SELECTED = "button_event_select",
-  UNSELECTED = "button_event_unselect"
+  UNSELECTED = "button_event_unselected"
 }

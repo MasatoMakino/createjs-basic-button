@@ -9,8 +9,8 @@ import { BasicRadioButton } from "./BasicRadioButton";
  *
  * 利用する際には以下のような手順でインスタンス化してください。
  *
- *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager();	//インスタンス化
- *	(BasicRadioButton).selectButton();										//デフォルトで選択されているボタンを指定
+ *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
+ *	(BasicRadioButton).selectButton(); //デフォルトで選択されているボタンを指定
  */
 export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     protected _buttons: BasicRadioButton[];
