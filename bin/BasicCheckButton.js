@@ -68,7 +68,12 @@ export class BasicCheckButton extends BasicClickButton {
             return;
         super.selectButton(evt);
         this.isSelect = true;
-        this.updateMaterialVisible(BasicButtonState.SELECT);
+        if (!this.isDisable) {
+            const state = this._isOver
+                ? BasicButtonState.SELECT_OVER
+                : BasicButtonState.SELECT;
+            this.updateMaterialVisible(state);
+        }
         let buttonEvt = new BasicButtonEvent(BasicButtonEventType.SELECTED);
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
@@ -76,8 +81,12 @@ export class BasicCheckButton extends BasicClickButton {
     deselectButton(evt) {
         if (!this.isSelect)
             return;
-        if (!this.isDisable)
-            this.updateMaterialVisible(BasicButtonState.NORMAL);
+        if (!this.isDisable) {
+            const state = this._isOver
+                ? BasicButtonState.NORMAL_OVER
+                : BasicButtonState.NORMAL;
+            this.updateMaterialVisible(state);
+        }
         this.isSelect = false;
         let buttonEvt = new BasicButtonEvent(BasicButtonEventType.UNSELECTED);
         buttonEvt.buttonValue = this.buttonValue;

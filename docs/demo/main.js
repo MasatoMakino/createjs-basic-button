@@ -1,7 +1,8 @@
 import {
   BasicClickButton,
   BasicButtonMaterialConfig,
-  BasicButtonEventType
+  BasicButtonEventType,
+  BasicCheckButton
 } from "../../bin/BasicButton";
 
 let stage;
@@ -21,6 +22,7 @@ const onDomContentsLoaded = () => {
   createjs.Ticker.on("tick", updateStage);
 
   testButton();
+  testCheckButton();
 };
 
 const getMaterial = color => {
@@ -48,6 +50,18 @@ const testButton = () => {
   const testButton = new BasicClickButton();
   testButton.initMaterial(getMaterialSet());
   testButton.x = 180;
+  testButton.y = 180;
+  stage.addChild(testButton);
+
+  testButton.addEventListener("click", e => {
+    console.log(e);
+  });
+};
+
+const testCheckButton = () => {
+  const testButton = new BasicCheckButton();
+  testButton.initMaterial(getMaterialSet());
+  testButton.x = 360;
   testButton.y = 180;
   stage.addChild(testButton);
 

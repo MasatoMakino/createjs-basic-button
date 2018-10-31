@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.1.0",
     "@types/jest": "^23.3.7",
     "babel-loader": "^8.0.4",
+    "browser-sync": "^2.26.3",
     "cpx": "^1.5.0",
     "husky": "^1.1.2",
     "jest": "^23.6.0",
@@ -33,6 +34,8 @@
     "build": "npm run prettier:src && tsc && npm run babel && npm run doc",
     "prettier:src": "prettier --write './!(bin)/**/*.{js,ts,json}' ",
     "babel": "webpack --mode development --module-bind js=babel-loader ./docs/demo/main.js --output ./docs/demo/bundle.js",
+    "watch:server": "node task/browsersync.js development",
+    "server": "node task/browsersync.js production",
     "doc": "npm run doc:generate && npm run doc:replaceNode",
     "doc:generate": "typedoc --tsconfig tsdocconfig.json src",
     "doc:replaceNode": "node ./task/replaceAPI.js"
