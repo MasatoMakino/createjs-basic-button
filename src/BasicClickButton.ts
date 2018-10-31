@@ -32,26 +32,23 @@ export class BasicClickButton extends createjs.Container {
 
     //childのマウスイベントが生きていると正常に動作しないため、処理をここで止める。
     this.mouseChildren = false;
-
     this.cursor = "pointer";
-
     this.setMouseEvents();
+    this.addEventListener(
+      "added",
+      (e: any): void => {
+        if (!this.stage) return;
 
-    this.addEventListener("added", this.onAdded);
-  }
-
-  onAdded = (e?: any): void => {
-    if (this.stage) {
-      this.removeEventListener("added", this.onAdded);
-      if ((<any>this.stage)._mouseOverIntervalID == null) {
+        e.remove();
+        if ((<any>this.stage)._mouseOverIntervalID != null) return;
         console.warn(
           "BasicButton : stageはmouseoverイベントを処理していません。" +
             "そのためボタンのマウスオーバー処理が正常に働いていません。" +
             "stage.enableMouseOver()を実行してからボタンを配置してください。"
         );
       }
-    }
-  };
+    );
+  }
 
   /**
    * ボタンに対するマウスハンドリングを開始する。
@@ -114,8 +111,10 @@ export class BasicClickButton extends createjs.Container {
 
     this.isPressed = false;
 
-    this.selectButton(evt);
-    this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
+    const state = this._isOver
+      ? BasicButtonState.NORMAL_OVER
+      : BasicButtonState.NORMAL;
+    this.updateMaterialVisible(state);
   }
 
   /**
@@ -153,14 +152,6 @@ export class BasicClickButton extends createjs.Container {
     this.isPressed = false;
 
     if (!this.checkActivity()) return;
-    this.updateMaterialVisible(BasicButtonState.NORMAL);
-  }
-
-  /**
-   * ボタンを選択する
-   * @param    evt
-   */
-  public selectButton(evt?: createjs.MouseEvent): void {
     this.updateMaterialVisible(BasicButtonState.NORMAL);
   }
 

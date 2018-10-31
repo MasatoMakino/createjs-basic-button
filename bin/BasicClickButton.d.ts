@@ -22,7 +22,6 @@ export declare class BasicClickButton extends createjs.Container {
      * コンストラクタ
      */
     constructor();
-    onAdded: (e?: any) => void;
     /**
      * ボタンに対するマウスハンドリングを開始する。
      */
@@ -62,11 +61,6 @@ export declare class BasicClickButton extends createjs.Container {
      * @param {createjs.MouseEvent} evt
      */
     outButton(evt?: createjs.MouseEvent): void;
-    /**
-     * ボタンを選択する
-     * @param    evt
-     */
-    selectButton(evt?: createjs.MouseEvent): void;
     /**
      * ボタンを非活性化する
      */

@@ -17,16 +17,6 @@ export class BasicClickButton extends createjs.Container {
         this.isPressed = false; //ボタンが押されているか否か
         this._isOver = false; //マウスオーバーしているか否か
         this._buttonValue = null; //このボタンに割り当てられた値
-        this.onAdded = (e) => {
-            if (this.stage) {
-                this.removeEventListener("added", this.onAdded);
-                if (this.stage._mouseOverIntervalID == null) {
-                    console.warn("BasicButton : stageはmouseoverイベントを処理していません。" +
-                        "そのためボタンのマウスオーバー処理が正常に働いていません。" +
-                        "stage.enableMouseOver()を実行してからボタンを配置してください。");
-                }
-            }
-        };
         /**
          * ボタンを押す
          * @param e
@@ -63,7 +53,16 @@ export class BasicClickButton extends createjs.Container {
         this.mouseChildren = false;
         this.cursor = "pointer";
         this.setMouseEvents();
-        this.addEventListener("added", this.onAdded);
+        this.addEventListener("added", (e) => {
+            if (!this.stage)
+                return;
+            e.remove();
+            if (this.stage._mouseOverIntervalID != null)
+                return;
+            console.warn("BasicButton : stageはmouseoverイベントを処理していません。" +
+                "そのためボタンのマウスオーバー処理が正常に働いていません。" +
+                "stage.enableMouseOver()を実行してからボタンを配置してください。");
+        });
     }
     /**
      * ボタンに対するマウスハンドリングを開始する。
@@ -104,8 +103,10 @@ export class BasicClickButton extends createjs.Container {
         if (!this.isPressed)
             return;
         this.isPressed = false;
-        this.selectButton(evt);
-        this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
+        const state = this._isOver
+            ? BasicButtonState.NORMAL_OVER
+            : BasicButtonState.NORMAL;
+        this.updateMaterialVisible(state);
     }
     overButton(evt) {
         this._isOver = true;
@@ -123,13 +124,6 @@ export class BasicClickButton extends createjs.Container {
         this.isPressed = false;
         if (!this.checkActivity())
             return;
-        this.updateMaterialVisible(BasicButtonState.NORMAL);
-    }
-    /**
-     * ボタンを選択する
-     * @param    evt
-     */
-    selectButton(evt) {
         this.updateMaterialVisible(BasicButtonState.NORMAL);
     }
     /**

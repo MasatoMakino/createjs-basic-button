@@ -61,13 +61,11 @@ export class BasicCheckButton extends BasicClickButton {
   }
 
   /**
-   * @override
    * @param {createjs.MouseEvent} evt
    */
   public selectButton(evt?: createjs.MouseEvent): void {
     if (this.isSelect) return;
 
-    super.selectButton(evt);
     this.isSelect = true;
     if (!this.isDisable) {
       const state = this._isOver

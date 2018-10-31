@@ -22,7 +22,6 @@ export declare class BasicCheckButton extends BasicClickButton {
     overButton(evt?: createjs.MouseEvent): void;
     outButton(evt?: createjs.MouseEvent): void;
     /**
-     * @override
      * @param {createjs.MouseEvent} evt
      */
     selectButton(evt?: createjs.MouseEvent): void;
