@@ -26,6 +26,7 @@ const onDomContentsLoaded = () => {
   testButton();
   testCheckButton();
   testRadioButtons();
+  testRadioMarkerButtons();
 };
 
 const getMaterial = color => {
@@ -37,8 +38,8 @@ const getMaterial = color => {
   return mat;
 };
 
-const getMaterialSet = () => {
-  return {
+const getMaterialSet = marker => {
+  const mat = {
     normal: getMaterial("#0f0"),
     over: getMaterial("#6f6"),
     down: getMaterial("#f0f"),
@@ -47,6 +48,11 @@ const getMaterialSet = () => {
     selectOver: getMaterial("#6ff"),
     selectDown: getMaterial("#f8f")
   };
+
+  if (marker != null) {
+    mat.selectMarker = marker;
+  }
+  return mat;
 };
 
 const testButton = () => {
@@ -73,11 +79,17 @@ const testCheckButton = () => {
   });
 };
 
-const getRadioButton = (x, value) => {
+const getRadioButton = (x, value, y, marker) => {
+  if (y == null) y = 360;
   const testButton = new BasicRadioButton();
-  testButton.initMaterial(getMaterialSet());
+
+  const matSet = getMaterialSet(marker);
+
+  testButton.initMaterial(matSet);
+
   testButton.x = x;
-  testButton.y = 360;
+  testButton.y = y;
+  testButton.buttonValue = value;
   stage.addChild(testButton);
   return testButton;
 };
@@ -87,6 +99,24 @@ const testRadioButtons = () => {
   manager.addButton(getRadioButton(180 * 1, "button01"));
   manager.addButton(getRadioButton(180 * 2, "button02"));
   manager.addButton(getRadioButton(180 * 3, "button03"));
+  manager.buttons[0].initSelection(true);
+};
+
+const getMarker = () => {
+  const shape = new createjs.Shape();
+  shape.graphics
+    .beginFill("#F00")
+    .drawCircle(0, 0, 8)
+    .endFill();
+  return shape;
+};
+
+const testRadioMarkerButtons = () => {
+  const manager = new BasicRadioButtonManager();
+
+  manager.addButton(getRadioButton(180 * 1, "button01", 480, getMarker()));
+  manager.addButton(getRadioButton(180 * 2, "button02", 480, getMarker()));
+  manager.addButton(getRadioButton(180 * 3, "button03", 480, getMarker()));
   manager.buttons[0].initSelection(true);
 };
 
