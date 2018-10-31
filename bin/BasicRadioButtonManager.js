@@ -33,7 +33,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
             btn.initSelection(selectedButton === btn);
         }
     }
-    unselectOthers(selectedButton, isDispatchSelectEvent = true) {
+    deselectOthers(selectedButton, isDispatchSelectEvent = true) {
         this.selected = selectedButton;
         for (let btn of this._buttons) {
             if (btn != selectedButton) {
@@ -47,7 +47,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
             this.dispatchEvent(evt);
         }
     }
-    unselectAllButtons() {
+    deselectAllButtons() {
         this.selected = undefined;
         for (let btn of this._buttons) {
             btn.deselectButton();

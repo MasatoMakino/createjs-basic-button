@@ -9,6 +9,7 @@ export class BasicRadioButton extends BasicCheckButton {
     }
     outButton(evt) {
         super.outButton(evt);
+        //マウスオーバーの解除のみはcheckActivityの判定にかかわらず行う。
         if (!this.isDisable && this.isSelect) {
             this.updateMaterialVisible(BasicButtonState.SELECT);
         }
@@ -24,11 +25,11 @@ export class BasicRadioButton extends BasicCheckButton {
     }
     selectButton(evt) {
         super.selectButton();
-        this.manager.unselectOthers(this);
+        this.manager.deselectOthers(this);
     }
     initSelection(isSelect) {
         super.initSelection(isSelect);
         if (isSelect)
-            this.manager.unselectOthers(this, false);
+            this.manager.deselectOthers(this, false);
     }
 }

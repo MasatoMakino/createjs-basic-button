@@ -25,8 +25,8 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
      * @param selectedButton
      */
     initSelection(selectedButton: BasicRadioButton): void;
-    unselectOthers(selectedButton: BasicRadioButton, isDispatchSelectEvent?: boolean): void;
-    unselectAllButtons(): void;
+    deselectOthers(selectedButton: BasicRadioButton, isDispatchSelectEvent?: boolean): void;
+    deselectAllButtons(): void;
     disableAll(): void;
     disableMouseAll(): void;
     enableAll(): void;
