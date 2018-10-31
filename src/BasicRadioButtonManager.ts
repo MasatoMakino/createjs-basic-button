@@ -104,11 +104,6 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
     return this.selected;
   }
 
-  public pressButton(button: BasicRadioButton): void {}
-  public releaseButton(button: BasicRadioButton): void {}
-  public overButton(button: BasicRadioButton): void {}
-  public outButton(button: BasicRadioButton): void {}
-
   public getButtonValue(): any {
     const btn = this.getSelectedButton();
     if (btn) {
@@ -136,7 +131,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
    * @param value
    * @returns {BasicRadioButton | null}
    */
-  public getButtonWithButtonValue(value: any): BasicRadioButton | null {
+  public getButton(value: any): BasicRadioButton | null {
     for (let btn of this._buttons) {
       if (
         btn.buttonValue === value &&

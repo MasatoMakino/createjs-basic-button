@@ -28,8 +28,8 @@ export class BasicCheckButton extends BasicClickButton {
    */
   public releaseButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;
-    if (!this.isPressed) return;
 
+    if (!this.isPressed) return;
     this.isPressed = false;
 
     if (this.isSelect) this.deselectButton(evt);

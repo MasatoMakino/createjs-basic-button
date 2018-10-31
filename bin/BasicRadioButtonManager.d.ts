@@ -32,10 +32,6 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     enableAll(): void;
     enableMouseAll(): void;
     getSelectedButton(): BasicRadioButton | undefined;
-    pressButton(button: BasicRadioButton): void;
-    releaseButton(button: BasicRadioButton): void;
-    overButton(button: BasicRadioButton): void;
-    outButton(button: BasicRadioButton): void;
     getButtonValue(): any;
     refreshButtons(value: any): void;
     readonly buttons: BasicRadioButton[];
@@ -46,6 +42,6 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
      * @param value
      * @returns {BasicRadioButton | null}
      */
-    getButtonWithButtonValue(value: any): BasicRadioButton | null;
+    getButton(value: any): BasicRadioButton | null;
 }
 //# sourceMappingURL=BasicRadioButtonManager.d.ts.map
