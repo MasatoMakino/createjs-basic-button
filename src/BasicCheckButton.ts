@@ -53,11 +53,13 @@ export class BasicCheckButton extends BasicClickButton {
   public outButton(evt?: createjs.MouseEvent): void {
     super.outButton(evt);
 
+    if (!this.isDisable) {
+      const state = this.isSelect
+        ? BasicButtonState.SELECT
+        : BasicButtonState.NORMAL;
+      this.updateMaterialVisible(state);
+    }
     if (!this.checkActivity()) return;
-    const state = this.isSelect
-      ? BasicButtonState.SELECT
-      : BasicButtonState.NORMAL;
-    this.updateMaterialVisible(state);
   }
 
   /**

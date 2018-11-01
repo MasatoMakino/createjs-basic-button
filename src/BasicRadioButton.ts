@@ -6,19 +6,12 @@ import { BasicButtonState } from "./BasicClickButton";
  * 排他的に選択可能なボタン。ラジオボタンのセットはBasicRadioButtonManagerで設定する。
  */
 export class BasicRadioButton extends BasicCheckButton {
+  //TODO ラジオボタン側からmanagerを排除する。
+  //伝達は全てイベントで行う。
   protected manager!: BasicRadioButtonManager; //このボタンが所属するラジオボタングループ。
 
   public setManager(manager: BasicRadioButtonManager): void {
     this.manager = manager;
-  }
-
-  public outButton(evt?: createjs.MouseEvent): void {
-    super.outButton(evt);
-
-    //マウスオーバーの解除のみはcheckActivityの判定にかかわらず行う。
-    if (!this.isDisable && this.isSelect) {
-      this.updateMaterialVisible(BasicButtonState.SELECT);
-    }
   }
 
   public checkActivity(): boolean {

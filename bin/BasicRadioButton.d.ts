@@ -7,7 +7,6 @@ import { BasicRadioButtonManager } from "./BasicRadioButtonManager";
 export declare class BasicRadioButton extends BasicCheckButton {
     protected manager: BasicRadioButtonManager;
     setManager(manager: BasicRadioButtonManager): void;
-    outButton(evt?: createjs.MouseEvent): void;
     checkActivity(): boolean;
     selectButton(evt?: createjs.MouseEvent): void;
     initSelection(isSelect: boolean): void;

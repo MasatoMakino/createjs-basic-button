@@ -1,18 +1,10 @@
 import { BasicCheckButton } from "./BasicCheckButton";
-import { BasicButtonState } from "./BasicClickButton";
 /**
  * 排他的に選択可能なボタン。ラジオボタンのセットはBasicRadioButtonManagerで設定する。
  */
 export class BasicRadioButton extends BasicCheckButton {
     setManager(manager) {
         this.manager = manager;
-    }
-    outButton(evt) {
-        super.outButton(evt);
-        //マウスオーバーの解除のみはcheckActivityの判定にかかわらず行う。
-        if (!this.isDisable && this.isSelect) {
-            this.updateMaterialVisible(BasicButtonState.SELECT);
-        }
     }
     checkActivity() {
         if (this.isDisable)
