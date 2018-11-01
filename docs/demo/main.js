@@ -118,7 +118,7 @@ const testRadioButtons = () => {
   manager.addButton(getRadioButton(180 * 1, "button01"));
   manager.addButton(getRadioButton(180 * 2, "button02"));
   manager.addButton(getRadioButton(180 * 3, "button03"));
-  manager.buttons[0].initSelection(true);
+  manager.initSelection(manager.buttons[0]);
   manager.addEventListener(BasicButtonEventType.SELECTED, e => {
     const evt = e;
     console.log(evt.buttonValue);
@@ -140,7 +140,7 @@ const testRadioMarkerButtons = () => {
   manager.addButton(getRadioButton(180 * 1, "button01", 480, getMarker()));
   manager.addButton(getRadioButton(180 * 2, "button02", 480, getMarker()));
   manager.addButton(getRadioButton(180 * 3, "button03", 480, getMarker()));
-  manager.buttons[0].initSelection(true);
+  manager.initSelection(manager.buttons[0]);
 };
 
 const testRadioLabelButtons = () => {
@@ -153,7 +153,7 @@ const testRadioLabelButtons = () => {
   for (let btn of manager.buttons) {
     addLabel(btn, btn.buttonValue);
   }
-  manager.buttons[0].initSelection(true);
+  manager.initSelection(manager.buttons[0]);
 };
 
 const addLabel = (btn, label) => {

@@ -8,8 +8,10 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
  *
  * 利用する際には以下のような手順でインスタンス化してください。
  *
- *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
- *	(BasicRadioButton).selectButton(); //デフォルトで選択されているボタンを指定
+ * let btn:BasicRadioButton = new BasicRadioButton(...);
+ * let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
+ * manager.addButton(btn);
+ * manager.initSelection(btn); //デフォルトで選択されているボタンを指定
  */
 export class BasicRadioButtonManager extends createjs.EventDispatcher {
     constructor() {
@@ -18,19 +20,26 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
     }
     addButton(button) {
         this._buttons.push(button);
-        button.setManager(this);
+        button.addEventListener(BasicButtonEventType.SELECTED, (e) => {
+            const evt = e;
+            this.deselectOthers(evt.currentTarget);
+        });
     }
     /**
      * 初期選択ボタンを指定する。
-     * BasicButtonEventを返さないので、ラジオボタンの状態を
-     * イベントを発行せずに整える用途にも使用できる。
      * nullを引数に取ると全ての選択を解除する。
-     * @param selectedButton
+     * @param {BasicRadioButton} selectedButton
      */
     initSelection(selectedButton) {
         this.selected = selectedButton;
+        if (selectedButton == null) {
+            this.deselectAllButtons();
+            return;
+        }
         for (let btn of this._buttons) {
-            btn.initSelection(selectedButton === btn);
+            if (selectedButton === btn) {
+                btn.selectButton();
+            }
         }
     }
     deselectOthers(selectedButton, isDispatchSelectEvent = true) {
@@ -52,7 +61,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
         for (let btn of this._buttons) {
             btn.deselectButton();
         }
-        let evt = new BasicButtonEvent(BasicButtonEventType.UNSELECTED);
+        const evt = new BasicButtonEvent(BasicButtonEventType.UNSELECTED);
         this.dispatchEvent(evt);
     }
     disableAll() {

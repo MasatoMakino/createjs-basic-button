@@ -10,8 +10,10 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
  *
  * 利用する際には以下のような手順でインスタンス化してください。
  *
- *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
- *	(BasicRadioButton).selectButton(); //デフォルトで選択されているボタンを指定
+ * let btn:BasicRadioButton = new BasicRadioButton(...);
+ * let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
+ * manager.addButton(btn);
+ * manager.initSelection(btn); //デフォルトで選択されているボタンを指定
  */
 
 export class BasicRadioButtonManager extends createjs.EventDispatcher {
@@ -25,20 +27,29 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
 
   public addButton(button: BasicRadioButton): void {
     this._buttons.push(button);
-    button.setManager(this);
+    button.addEventListener(BasicButtonEventType.SELECTED, (e: any) => {
+      const evt = e as BasicButtonEvent;
+      this.deselectOthers(evt.currentTarget);
+    });
   }
 
   /**
    * 初期選択ボタンを指定する。
-   * BasicButtonEventを返さないので、ラジオボタンの状態を
-   * イベントを発行せずに整える用途にも使用できる。
    * nullを引数に取ると全ての選択を解除する。
-   * @param selectedButton
+   * @param {BasicRadioButton} selectedButton
    */
-  public initSelection(selectedButton: BasicRadioButton): void {
+  public initSelection(selectedButton?: BasicRadioButton): void {
     this.selected = selectedButton;
+
+    if (selectedButton == null) {
+      this.deselectAllButtons();
+      return;
+    }
+
     for (let btn of this._buttons) {
-      btn.initSelection(selectedButton === btn);
+      if (selectedButton === btn) {
+        btn.selectButton();
+      }
     }
   }
 
@@ -70,7 +81,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
       btn.deselectButton();
     }
 
-    let evt: BasicButtonEvent = new BasicButtonEvent(
+    const evt: BasicButtonEvent = new BasicButtonEvent(
       BasicButtonEventType.UNSELECTED
     );
     this.dispatchEvent(evt);

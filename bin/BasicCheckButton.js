@@ -75,7 +75,7 @@ export class BasicCheckButton extends BasicClickButton {
                 : BasicButtonState.SELECT;
             this.updateMaterialVisible(state);
         }
-        let buttonEvt = new BasicButtonEvent(BasicButtonEventType.SELECTED);
+        const buttonEvt = new BasicButtonEvent(BasicButtonEventType.SELECTED);
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
     }
@@ -89,33 +89,9 @@ export class BasicCheckButton extends BasicClickButton {
             this.updateMaterialVisible(state);
         }
         this.isSelect = false;
-        let buttonEvt = new BasicButtonEvent(BasicButtonEventType.UNSELECTED);
+        const buttonEvt = new BasicButtonEvent(BasicButtonEventType.UNSELECTED);
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
-    }
-    /**
-     * 選択状態を反転させる。
-     * ButtonEvent.SELECTは発行しない。
-     * @param {createjs.MouseEvent} evt
-     */
-    reverseSelection(evt) {
-        this.isSelect = !this.isSelect;
-        if (this.isSelect)
-            this.updateMaterialVisible(BasicButtonState.SELECT);
-        else
-            this.updateMaterialVisible(BasicButtonState.NORMAL);
-    }
-    /**
-     * 選択状態の初期化のみを行う。
-     * ButtonEvent.SELECTは発行しない。
-     * @param {boolean} isSelect
-     */
-    initSelection(isSelect) {
-        this.isSelect = isSelect;
-        if (isSelect)
-            this.updateMaterialVisible(BasicButtonState.SELECT);
-        else
-            this.updateMaterialVisible(BasicButtonState.NORMAL);
     }
     /**
      * ボタンを操作可能にする。

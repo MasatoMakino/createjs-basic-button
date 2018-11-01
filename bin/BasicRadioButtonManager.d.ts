@@ -9,8 +9,10 @@ import { BasicRadioButton } from "./BasicRadioButton";
  *
  * 利用する際には以下のような手順でインスタンス化してください。
  *
- *	let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
- *	(BasicRadioButton).selectButton(); //デフォルトで選択されているボタンを指定
+ * let btn:BasicRadioButton = new BasicRadioButton(...);
+ * let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
+ * manager.addButton(btn);
+ * manager.initSelection(btn); //デフォルトで選択されているボタンを指定
  */
 export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     protected _buttons: BasicRadioButton[];
@@ -19,12 +21,10 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     addButton(button: BasicRadioButton): void;
     /**
      * 初期選択ボタンを指定する。
-     * BasicButtonEventを返さないので、ラジオボタンの状態を
-     * イベントを発行せずに整える用途にも使用できる。
      * nullを引数に取ると全ての選択を解除する。
-     * @param selectedButton
+     * @param {BasicRadioButton} selectedButton
      */
-    initSelection(selectedButton: BasicRadioButton): void;
+    initSelection(selectedButton?: BasicRadioButton): void;
     deselectOthers(selectedButton: BasicRadioButton, isDispatchSelectEvent?: boolean): void;
     deselectAllButtons(): void;
     disableAll(): void;

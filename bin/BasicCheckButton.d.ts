@@ -27,18 +27,6 @@ export declare class BasicCheckButton extends BasicClickButton {
     selectButton(evt?: createjs.MouseEvent): void;
     deselectButton(evt?: createjs.MouseEvent): void;
     /**
-     * 選択状態を反転させる。
-     * ButtonEvent.SELECTは発行しない。
-     * @param {createjs.MouseEvent} evt
-     */
-    reverseSelection(evt?: createjs.MouseEvent): void;
-    /**
-     * 選択状態の初期化のみを行う。
-     * ButtonEvent.SELECTは発行しない。
-     * @param {boolean} isSelect
-     */
-    initSelection(isSelect: boolean): void;
-    /**
      * ボタンを操作可能にする。
      */
     enableButton(): void;

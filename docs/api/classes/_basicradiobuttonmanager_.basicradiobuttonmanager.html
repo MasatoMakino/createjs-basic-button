@@ -78,8 +78,10 @@
 						このクラスは変更通知に応じ、他のBasicRadioButtonオブジェクトの選択状態を変更します。
 					また、このクラスは変更内容をEventとして発信します。</p>
 					<p>利用する際には以下のような手順でインスタンス化してください。</p>
-					<pre><code><span class="hljs-keyword">let</span> manager:<span class="hljs-type">BasicRadioButtonManager</span> = <span class="hljs-function"><span class="hljs-keyword">new</span> <span class="hljs-title">BasicRadioButtonManager</span>(); <span class="hljs-comment">//インスタンス化</span>
-(<span class="hljs-type">BasicRadioButton</span>).<span class="hljs-title">selectButton</span>(); <span class="hljs-comment">//デフォルトで選択されているボタンを指定</span></span></code></pre>
+					<p>let btn:BasicRadioButton = new BasicRadioButton(...);
+						let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
+						manager.addButton(btn);
+					manager.initSelection(btn); //デフォルトで選択されているボタンを指定</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -161,7 +163,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventDispatcher.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L19">BasicRadioButtonManager.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L21">BasicRadioButtonManager.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_basicradiobuttonmanager_.basicradiobuttonmanager.html" class="tsd-signature-type">BasicRadioButtonManager</a></h4>
@@ -177,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">_buttons<span class="tsd-signature-symbol">:</span> <a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L18">BasicRadioButtonManager.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L20">BasicRadioButtonManager.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -187,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">selected<span class="tsd-signature-symbol">:</span> <a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L19">BasicRadioButtonManager.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L21">BasicRadioButtonManager.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +206,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L123">BasicRadioButtonManager.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L134">BasicRadioButtonManager.ts:134</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -224,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L26">BasicRadioButtonManager.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L28">BasicRadioButtonManager.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -425,7 +427,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L67">BasicRadioButtonManager.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L78">BasicRadioButtonManager.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -442,7 +444,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L45">BasicRadioButtonManager.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L56">BasicRadioButtonManager.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -468,7 +470,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L79">BasicRadioButtonManager.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L90">BasicRadioButtonManager.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -485,7 +487,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L85">BasicRadioButtonManager.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L96">BasicRadioButtonManager.ts:96</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -567,7 +569,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L91">BasicRadioButtonManager.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L102">BasicRadioButtonManager.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -584,7 +586,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L97">BasicRadioButtonManager.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L108">BasicRadioButtonManager.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -601,7 +603,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L134">BasicRadioButtonManager.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L145">BasicRadioButtonManager.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -633,7 +635,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L107">BasicRadioButtonManager.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L118">BasicRadioButtonManager.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -650,7 +652,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L103">BasicRadioButtonManager.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L114">BasicRadioButtonManager.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a>
@@ -688,27 +690,25 @@
 					<a name="initselection" class="tsd-anchor"></a>
 					<h3>init<wbr>Selection</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">init<wbr>Selection<span class="tsd-signature-symbol">(</span>selectedButton<span class="tsd-signature-symbol">: </span><a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<wbr>Selection<span class="tsd-signature-symbol">(</span>selectedButton<span class="tsd-signature-symbol">?: </span><a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L38">BasicRadioButtonManager.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L41">BasicRadioButtonManager.ts:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>初期選択ボタンを指定する。
-										BasicButtonEventを返さないので、ラジオボタンの状態を
-										イベントを発行せずに整える用途にも使用できる。
 									nullを引数に取ると全ての選択を解除する。</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>selectedButton: <a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> selectedButton: <a href="_basicradiobutton_.basicradiobutton.html" class="tsd-signature-type">BasicRadioButton</a></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
@@ -1141,7 +1141,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/0c1ab06/src/BasicRadioButtonManager.ts#L115">BasicRadioButtonManager.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/createjs-basic-button/blob/2ac60b4/src/BasicRadioButtonManager.ts#L126">BasicRadioButtonManager.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
