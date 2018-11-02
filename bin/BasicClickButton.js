@@ -16,7 +16,7 @@ export class BasicClickButton extends createjs.Container {
         super();
         this.isDisable = false; //ボタンが使用不可状態か否か
         this.isPressed = false; //ボタンが押されているか否か
-        this._isOver = false; //マウスオーバーしているか否か
+        this.isOver = false; //マウスオーバーしているか否か
         this._buttonValue = null; //このボタンに割り当てられた値
         //childのマウスイベントが生きていると正常に動作しないため、処理をここで止める。
         this.mouseChildren = false;
@@ -99,13 +99,13 @@ export class BasicClickButton extends createjs.Container {
         if (!this.isPressed)
             return;
         this.isPressed = false;
-        const state = this._isOver
+        const state = this.isOver
             ? BasicButtonState.NORMAL_OVER
             : BasicButtonState.NORMAL;
         this.updateMaterialVisible(state);
     }
     overButton(evt) {
-        this._isOver = true;
+        this.isOver = true;
         if (!this.checkActivity())
             return;
         this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
@@ -116,7 +116,7 @@ export class BasicClickButton extends createjs.Container {
      * @param {createjs.MouseEvent} evt
      */
     outButton(evt) {
-        this._isOver = false;
+        this.isOver = false;
         this.isPressed = false;
         if (!this.checkActivity())
             return;
@@ -197,9 +197,6 @@ export class BasicClickButton extends createjs.Container {
             return;
         }
         CreatejsCacheUtil.cacheText(this._labelField, value);
-    }
-    get isOver() {
-        return this._isOver;
     }
     get buttonValue() {
         return this._buttonValue;

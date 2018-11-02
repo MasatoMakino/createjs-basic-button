@@ -10,9 +10,9 @@ import Text = createjs.Text;
  *  stage.enableMouseOver();
  */
 export declare class BasicClickButton extends createjs.Container {
-    isDisable: boolean;
-    isPressed: boolean;
-    protected _isOver: boolean;
+    protected isDisable: boolean;
+    protected isPressed: boolean;
+    protected isOver: boolean;
     protected _buttonValue: any;
     protected material: ButtonMaterialSet;
     protected _labelField: createjs.Text;
@@ -90,7 +90,6 @@ export declare class BasicClickButton extends createjs.Container {
     * @param {string} value
     */
     label: string | null;
-    readonly isOver: boolean;
     buttonValue: any;
 }
 /**

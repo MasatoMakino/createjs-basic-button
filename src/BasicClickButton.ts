@@ -12,9 +12,9 @@ import Text = createjs.Text;
  */
 
 export class BasicClickButton extends createjs.Container {
-  isDisable: boolean = false; //ボタンが使用不可状態か否か
-  isPressed: boolean = false; //ボタンが押されているか否か
-  protected _isOver: boolean = false; //マウスオーバーしているか否か
+  protected isDisable: boolean = false; //ボタンが使用不可状態か否か
+  protected isPressed: boolean = false; //ボタンが押されているか否か
+  protected isOver: boolean = false; //マウスオーバーしているか否か
 
   protected _buttonValue: any = null; //このボタンに割り当てられた値
   protected material!: ButtonMaterialSet; //状態マテリアル 状態によって表示が切り替わるもの。
@@ -121,14 +121,14 @@ export class BasicClickButton extends createjs.Container {
 
     this.isPressed = false;
 
-    const state = this._isOver
+    const state = this.isOver
       ? BasicButtonState.NORMAL_OVER
       : BasicButtonState.NORMAL;
     this.updateMaterialVisible(state);
   }
 
   public overButton(evt?: createjs.MouseEvent): void {
-    this._isOver = true;
+    this.isOver = true;
 
     if (!this.checkActivity()) return;
     this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
@@ -140,7 +140,7 @@ export class BasicClickButton extends createjs.Container {
    * @param {createjs.MouseEvent} evt
    */
   public outButton(evt?: createjs.MouseEvent): void {
-    this._isOver = false;
+    this.isOver = false;
     this.isPressed = false;
 
     if (!this.checkActivity()) return;
@@ -233,10 +233,6 @@ export class BasicClickButton extends createjs.Container {
       return;
     }
     CreatejsCacheUtil.cacheText(this._labelField, value);
-  }
-
-  get isOver(): boolean {
-    return this._isOver;
   }
 
   get buttonValue(): any {

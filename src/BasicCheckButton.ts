@@ -70,7 +70,7 @@ export class BasicCheckButton extends BasicClickButton {
 
     this.isSelect = true;
     if (!this.isDisable) {
-      const state = this._isOver
+      const state = this.isOver
         ? BasicButtonState.SELECT_OVER
         : BasicButtonState.SELECT;
       this.updateMaterialVisible(state);
@@ -87,7 +87,7 @@ export class BasicCheckButton extends BasicClickButton {
     if (!this.isSelect) return;
 
     if (!this.isDisable) {
-      const state = this._isOver
+      const state = this.isOver
         ? BasicButtonState.NORMAL_OVER
         : BasicButtonState.NORMAL;
       this.updateMaterialVisible(state);
