@@ -57,10 +57,18 @@ export class BasicClickButton extends createjs.Container {
    * ボタンに対するマウスハンドリングを開始する。
    */
   private setMouseEvents(): void {
-    this.addEventListener("mousedown", this.onPressButton);
-    this.addEventListener("pressup", this.onReleaseButton);
-    this.addEventListener("rollover", this.onOverButton);
-    this.addEventListener("mouseout", this.onOutButton);
+    this.addEventListener("mousedown", (e: any) => {
+      this.pressButton(e as createjs.MouseEvent);
+    });
+    this.addEventListener("pressup", (e: any) => {
+      this.releaseButton(e as createjs.MouseEvent);
+    });
+    this.addEventListener("rollover", (e: any) => {
+      this.overButton(e as createjs.MouseEvent);
+    });
+    this.addEventListener("mouseout", (e: any) => {
+      this.outButton(e as createjs.MouseEvent);
+    });
   }
 
   /**
@@ -68,6 +76,8 @@ export class BasicClickButton extends createjs.Container {
    * @param {ButtonMaterialSet} materials
    */
   public initMaterial(materials: ButtonMaterialSet): void {
+    //TODO すでにmaterialが設定済みの場合、以前のマテリアルを削除する処理を追加する。
+
     this.material = materials;
     ButtonMaterialSet.addChild(this, materials);
     this.updateMaterialVisible(this.getButtonState());
@@ -89,14 +99,9 @@ export class BasicClickButton extends createjs.Container {
   }
 
   /**
-   * ボタンを押す
-   * @param e
+   *
+   * @param {createjs.MouseEvent} evt
    */
-  onPressButton = (e?: any): void => {
-    const evt = e as createjs.MouseEvent;
-    this.pressButton(evt);
-  };
-
   public pressButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;
     this.isPressed = true;
@@ -104,14 +109,9 @@ export class BasicClickButton extends createjs.Container {
   }
 
   /**
-   * ボタンを離す
-   * @param e
+   *
+   * @param {createjs.MouseEvent} evt
    */
-  onReleaseButton = (e?: any): void => {
-    const evt = e as createjs.MouseEvent;
-    this.releaseButton(evt);
-  };
-
   public releaseButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;
     if (!this.isPressed) return;
@@ -124,30 +124,12 @@ export class BasicClickButton extends createjs.Container {
     this.updateMaterialVisible(state);
   }
 
-  /**
-   * ボタンにマウスオーバーする
-   * @param e
-   */
-  public onOverButton = (e?: any): void => {
-    const evt = e as createjs.MouseEvent;
-    this.overButton(evt);
-  };
-
   public overButton(evt?: createjs.MouseEvent): void {
     this._isOver = true;
 
     if (!this.checkActivity()) return;
     this.updateMaterialVisible(BasicButtonState.NORMAL_OVER);
   }
-
-  /**
-   * ボタンからマウスアウトする
-   * @param e
-   */
-  public onOutButton = (e?: any): void => {
-    const evt = e as createjs.MouseEvent;
-    this.outButton(evt);
-  };
 
   /**
    * ボタンからマウスアウトした際の処理。
@@ -167,7 +149,7 @@ export class BasicClickButton extends createjs.Container {
    */
   public disableButton(): void {
     this.isDisable = true;
-    this.disableMouseEvent();
+    this.mouseEnabled = false;
     this.updateMaterialVisible(BasicButtonState.DISABLE);
   }
 
@@ -176,26 +158,8 @@ export class BasicClickButton extends createjs.Container {
    */
   public enableButton(): void {
     this.isDisable = false;
-    this.enableMouseEvent();
-    this.updateMaterialVisible(BasicButtonState.NORMAL);
-  }
-
-  /**
-   * ボタンのイベントリスナを有効にする
-   *   このメソッドではenableButton(),disableButton()と異なり
-   *   表示状態の変更は行われません。
-   */
-  public enableMouseEvent(): void {
     this.mouseEnabled = true;
-  }
-
-  /**
-   * ボタンのイベントリスナを無効にする
-   *   このメソッドではenableButton(),disableButton()と異なり
-   *   表示状態の変更は行われません。
-   */
-  public disableMouseEvent(): void {
-    this.mouseEnabled = false;
+    this.updateMaterialVisible(BasicButtonState.NORMAL);
   }
 
   /**

@@ -38,28 +38,16 @@ export declare class BasicClickButton extends createjs.Container {
      */
     protected updateMaterialVisible(state: BasicButtonState): void;
     /**
-     * ボタンを押す
-     * @param e
+     *
+     * @param {createjs.MouseEvent} evt
      */
-    onPressButton: (e?: any) => void;
     pressButton(evt?: createjs.MouseEvent): void;
     /**
-     * ボタンを離す
-     * @param e
+     *
+     * @param {createjs.MouseEvent} evt
      */
-    onReleaseButton: (e?: any) => void;
     releaseButton(evt?: createjs.MouseEvent): void;
-    /**
-     * ボタンにマウスオーバーする
-     * @param e
-     */
-    onOverButton: (e?: any) => void;
     overButton(evt?: createjs.MouseEvent): void;
-    /**
-     * ボタンからマウスアウトする
-     * @param e
-     */
-    onOutButton: (e?: any) => void;
     /**
      * ボタンからマウスアウトした際の処理。
      * 状態と表示を更新する。
@@ -74,18 +62,6 @@ export declare class BasicClickButton extends createjs.Container {
      * ボタンを活性化する
      */
     enableButton(): void;
-    /**
-     * ボタンのイベントリスナを有効にする
-     *   このメソッドではenableButton(),disableButton()と異なり
-     *   表示状態の変更は行われません。
-     */
-    enableMouseEvent(): void;
-    /**
-     * ボタンのイベントリスナを無効にする
-     *   このメソッドではenableButton(),disableButton()と異なり
-     *   表示状態の変更は行われません。
-     */
-    disableMouseEvent(): void;
     /**
      * 現在のボタンの有効、無効状態を取得する
      * @return    ボタンが有効か否か

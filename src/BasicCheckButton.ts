@@ -105,10 +105,11 @@ export class BasicCheckButton extends BasicClickButton {
    * ボタンを操作可能にする。
    */
   public enableButton(): void {
-    this.isDisable = false;
-    if (this.isSelect) this.updateMaterialVisible(BasicButtonState.SELECT);
-    else super.enableButton();
-    this.enableMouseEvent();
+    super.enableButton();
+    const state = this.isSelect
+      ? BasicButtonState.SELECT
+      : BasicButtonState.NORMAL;
+    this.updateMaterialVisible(state);
   }
 
   public getButtonState(): BasicButtonState {

@@ -95,7 +95,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
 
   public disableMouseAll(): void {
     for (let btn of this._buttons) {
-      btn.disableMouseEvent();
+      btn.mouseEnabled = false;
     }
   }
 
@@ -107,7 +107,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
 
   public enableMouseAll(): void {
     for (let btn of this._buttons) {
-      btn.enableMouseEvent();
+      btn.mouseEnabled = true;
     }
   }
 
