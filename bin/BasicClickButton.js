@@ -57,7 +57,11 @@ export class BasicClickButton extends createjs.Container {
      * @param {ButtonMaterialSet} materials
      */
     initMaterial(materials) {
-        //TODO すでにmaterialが設定済みの場合、以前のマテリアルを削除する処理を追加する。
+        //すでにmaterialが設定済みの場合、以前のマテリアルを削除する。
+        if (this.material) {
+            ButtonMaterialSet.remove(this.material);
+            this.material = null;
+        }
         this.material = materials;
         ButtonMaterialSet.addChild(this, materials);
         this.updateMaterialVisible(this.getButtonState());
@@ -211,13 +215,18 @@ export class ButtonMaterialSet {
      * @param {ButtonMaterialSet} material
      */
     static addChild(button, material) {
+        this.remove(material);
         const materials = this.getMaterialArray(material);
         for (let mat of materials) {
-            if (mat == null)
-                continue;
-            if (mat.parent)
+            if (mat != null)
+                button.addChild(mat);
+        }
+    }
+    static remove(material) {
+        const materials = this.getMaterialArray(material);
+        for (let mat of materials) {
+            if (mat && mat.parent)
                 mat.parent.removeChild(mat);
-            button.addChild(mat);
         }
     }
     /**

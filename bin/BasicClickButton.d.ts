@@ -112,6 +112,7 @@ export declare class ButtonMaterialSet {
      * @param {ButtonMaterialSet} material
      */
     static addChild(button: BasicClickButton, material: ButtonMaterialSet): void;
+    static remove(material: ButtonMaterialSet): void;
     /**
      * 全ての表示パーツを配列として取得する。
      * @param {ButtonMaterialSet} materials
