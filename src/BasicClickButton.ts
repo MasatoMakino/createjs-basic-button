@@ -102,7 +102,8 @@ export class BasicClickButton extends createjs.Container {
   }
 
   /**
-   *
+   * ボタン上でマウスダウンした際の処理。
+   * 状態と表示を更新する。
    * @param {createjs.MouseEvent} evt
    */
   public pressButton(evt?: createjs.MouseEvent): void {
@@ -112,7 +113,8 @@ export class BasicClickButton extends createjs.Container {
   }
 
   /**
-   *
+   * ボタン上でマウスアップした際の処理。
+   * 状態と表示を更新する。
    * @param {createjs.MouseEvent} evt
    */
   public releaseButton(evt?: createjs.MouseEvent): void {
@@ -127,6 +129,11 @@ export class BasicClickButton extends createjs.Container {
     this.updateMaterialVisible(state);
   }
 
+  /**
+   * ボタンにマウスオーバーした際の処理。
+   * 状態と表示を更新する。
+   * @param {createjs.MouseEvent} evt
+   */
   public overButton(evt?: createjs.MouseEvent): void {
     this.isOver = true;
 
@@ -175,7 +182,7 @@ export class BasicClickButton extends createjs.Container {
 
   /**
    * 現在のボタンの状態を取得する
-   * @return    定数STATE_*のいずれか
+   * @returns {BasicButtonState}
    */
   public getButtonState(): BasicButtonState {
     if (this.isDisable) return BasicButtonState.DISABLE;
@@ -183,7 +190,7 @@ export class BasicClickButton extends createjs.Container {
   }
 
   /**
-   * ボタンラベルを初期化する。
+   * ボタンラベルを追加する。
    * @param {number} x ラベル位置
    * @param {number} y ラベル位置
    * @param {string} label ラベルに表示する文言
@@ -283,6 +290,10 @@ export class ButtonMaterialSet {
     }
   }
 
+  /**
+   * この状態セットに含まれるパーツを表示ツリー上から削除する。
+   * @param {ButtonMaterialSet} material
+   */
   public static remove(material: ButtonMaterialSet): void {
     const materials = this.getMaterialArray(material);
     for (let mat of materials) {

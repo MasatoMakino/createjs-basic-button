@@ -37,15 +37,22 @@ export declare class BasicClickButton extends createjs.Container {
      */
     protected updateMaterialVisible(state: BasicButtonState): void;
     /**
-     *
+     * ボタン上でマウスダウンした際の処理。
+     * 状態と表示を更新する。
      * @param {createjs.MouseEvent} evt
      */
     pressButton(evt?: createjs.MouseEvent): void;
     /**
-     *
+     * ボタン上でマウスアップした際の処理。
+     * 状態と表示を更新する。
      * @param {createjs.MouseEvent} evt
      */
     releaseButton(evt?: createjs.MouseEvent): void;
+    /**
+     * ボタンにマウスオーバーした際の処理。
+     * 状態と表示を更新する。
+     * @param {createjs.MouseEvent} evt
+     */
     overButton(evt?: createjs.MouseEvent): void;
     /**
      * ボタンからマウスアウトした際の処理。
@@ -68,11 +75,11 @@ export declare class BasicClickButton extends createjs.Container {
     checkActivity(): boolean;
     /**
      * 現在のボタンの状態を取得する
-     * @return    定数STATE_*のいずれか
+     * @returns {BasicButtonState}
      */
     getButtonState(): BasicButtonState;
     /**
-     * ボタンラベルを初期化する。
+     * ボタンラベルを追加する。
      * @param {number} x ラベル位置
      * @param {number} y ラベル位置
      * @param {string} label ラベルに表示する文言
@@ -111,6 +118,10 @@ export declare class ButtonMaterialSet {
      * @param {ButtonMaterialSet} material
      */
     static addChild(button: BasicClickButton, material: ButtonMaterialSet): void;
+    /**
+     * この状態セットに含まれるパーツを表示ツリー上から削除する。
+     * @param {ButtonMaterialSet} material
+     */
     static remove(material: ButtonMaterialSet): void;
     /**
      * 全ての表示パーツを配列として取得する。
