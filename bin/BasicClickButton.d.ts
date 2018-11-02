@@ -90,6 +90,7 @@ export declare class BasicClickButton extends createjs.Container {
     * @param {string} value
     */
     label: string | null;
+    readonly labelField: Text;
     buttonValue: any;
 }
 /**

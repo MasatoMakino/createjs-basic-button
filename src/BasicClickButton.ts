@@ -199,6 +199,11 @@ export class BasicClickButton extends createjs.Container {
     color: ButtonLabelColorSet,
     textAlign?: string
   ): void {
+    if (this._labelField) {
+      this._labelField.parent.removeChild(this._labelField);
+      this._labelField = null;
+    }
+
     this.labelColors = color;
     this._labelField = new createjs.Text("", font, color.normal);
     this._labelField.x = x;
@@ -233,6 +238,10 @@ export class BasicClickButton extends createjs.Container {
       return;
     }
     CreatejsCacheUtil.cacheText(this._labelField, value);
+  }
+
+  get labelField(): Text {
+    return this._labelField;
   }
 
   get buttonValue(): any {
