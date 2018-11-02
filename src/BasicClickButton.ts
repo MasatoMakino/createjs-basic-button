@@ -22,12 +22,13 @@ export class BasicClickButton extends createjs.Container {
   /*ボタンラベル*/
   protected _labelField!: createjs.Text; //ラベル表示用のテキストフィールド
   protected _label!: string; //ラベルの内容
-  protected labelColors!: ButtonLabelColorSet;
+  protected labelColors!: ButtonLabelColorSet; //ラベルの色のセット。各状態のラベルの文字色を格納する。
 
   /**
    * コンストラクタ
+   * @param {ButtonMaterialSet} materials 状態セット
    */
-  constructor() {
+  constructor(materials?: ButtonMaterialSet) {
     super();
 
     //childのマウスイベントが生きていると正常に動作しないため、処理をここで止める。
@@ -48,6 +49,8 @@ export class BasicClickButton extends createjs.Container {
         );
       }
     );
+
+    if (materials) this.initMaterial(materials);
   }
 
   /**
@@ -76,9 +79,13 @@ export class BasicClickButton extends createjs.Container {
     }
   }
 
-  protected updateMaterialVisible(type: BasicButtonState) {
-    ButtonMaterialSet.updateVisible(this.material, type);
-    ButtonLabelColorSet.update(this._labelField, this.labelColors, type);
+  /**
+   * 状態表示およびラベル文字色を、状態に応じて更新する。
+   * @param {BasicButtonState} state
+   */
+  protected updateMaterialVisible(state: BasicButtonState) {
+    ButtonMaterialSet.updateVisible(this.material, state);
+    ButtonLabelColorSet.update(this._labelField, this.labelColors, state);
   }
 
   /**
@@ -291,22 +298,32 @@ export class ButtonMaterialSet {
     button: BasicClickButton,
     material: ButtonMaterialSet
   ): void {
-    const materials = [
-      material.normal,
-      material.over,
-      material.down,
-      material.disable,
-      material.selectNormal,
-      material.selectOver,
-      material.selectDown,
-      material.selectMarker
-    ];
-
+    const materials = this.getMaterialArray(material);
     for (let mat of materials) {
       if (mat == null) continue;
       if (mat.parent) mat.parent.removeChild(mat);
       button.addChild(mat);
     }
+  }
+
+  /**
+   * 全ての表示パーツを配列として取得する。
+   * @param {ButtonMaterialSet} materials
+   * @returns {createjs.DisplayObject[]}
+   */
+  private static getMaterialArray(
+    materials: ButtonMaterialSet
+  ): DisplayObject[] {
+    return [
+      materials.normal,
+      materials.over,
+      materials.down,
+      materials.disable,
+      materials.selectNormal,
+      materials.selectOver,
+      materials.selectDown,
+      materials.selectMarker
+    ];
   }
 
   /**
@@ -335,14 +352,10 @@ export class ButtonMaterialSet {
    * @param {ButtonMaterialSet} material
    */
   private static invisibleAll(material: ButtonMaterialSet): void {
-    material.normal.visible = false;
-    if (material.over) material.over.visible = false;
-    if (material.down) material.down.visible = false;
-    if (material.disable) material.disable.visible = false;
-    if (material.selectNormal) material.selectNormal.visible = false;
-    if (material.selectOver) material.selectOver.visible = false;
-    if (material.selectDown) material.selectDown.visible = false;
-    if (material.selectMarker) material.selectMarker.visible = false;
+    const materials = this.getMaterialArray(material);
+    for (let mat of materials) {
+      if (mat != null) mat.visible = false;
+    }
   }
 
   /**
@@ -357,25 +370,20 @@ export class ButtonMaterialSet {
   ): DisplayObject {
     switch (state) {
       case BasicButtonState.DISABLE:
-        if (material.disable) return material.disable;
-        break;
+        return material.disable || material.normal;
       case BasicButtonState.NORMAL_OVER:
-        if (material.over) return material.over;
-        break;
+        return material.over || material.normal;
       case BasicButtonState.NORMAL_DOWN:
-        if (material.down) return material.down;
-        break;
+        return material.down || material.normal;
       case BasicButtonState.SELECT:
-        if (material.selectNormal) return material.selectNormal;
-        break;
+        return material.selectNormal || material.normal;
       case BasicButtonState.SELECT_OVER:
-        if (material.selectOver) return material.selectOver;
-        break;
+        return material.selectOver || material.normal;
       case BasicButtonState.SELECT_DOWN:
-        if (material.selectDown) return material.selectDown;
-        break;
+        return material.selectDown || material.normal;
+      default:
+        return material.normal;
     }
-    return material.normal;
   }
 }
 
@@ -392,6 +400,12 @@ export class ButtonLabelColorSet {
   selectOver?: string;
   selectDown?: string;
 
+  /**
+   * ラベル文字色をボタン状態に応じて更新する。
+   * @param {createjs.Text} field 更新対象ラベル
+   * @param {ButtonLabelColorSet} colors 状態文字色セット
+   * @param {BasicButtonState} state ボタン状態
+   */
   public static update(
     field: Text,
     colors: ButtonLabelColorSet,
@@ -400,31 +414,37 @@ export class ButtonLabelColorSet {
     if (field == null) return;
 
     const option = {
-      color: colors.normal
+      color: this.getColor(colors, state)
     };
+    CreatejsCacheUtil.cacheText(field, field.text, option);
+  }
 
+  /**
+   * 状態に対応した文字色を取り出す。
+   * @param {ButtonLabelColorSet} colors
+   * @param {BasicButtonState} state
+   * @returns {string}
+   */
+  private static getColor(
+    colors: ButtonLabelColorSet,
+    state: BasicButtonState
+  ): string {
     switch (state) {
       case BasicButtonState.NORMAL_DOWN:
-        option.color = colors.down || colors.normal;
-        break;
+        return colors.down || colors.normal;
       case BasicButtonState.NORMAL_OVER:
-        option.color = colors.over || colors.normal;
-        break;
+        return colors.over || colors.normal;
       case BasicButtonState.DISABLE:
-        option.color = colors.disable || colors.normal;
-        break;
+        return colors.disable || colors.normal;
       case BasicButtonState.SELECT:
-        option.color = colors.selectNormal || colors.normal;
-        break;
+        return colors.selectNormal || colors.normal;
       case BasicButtonState.SELECT_DOWN:
-        option.color = colors.selectDown || colors.normal;
-        break;
+        return colors.selectDown || colors.normal;
       case BasicButtonState.SELECT_OVER:
-        option.color = colors.selectOver || colors.normal;
-        break;
+        return colors.selectOver || colors.normal;
+      default:
+        return colors.normal;
     }
-
-    CreatejsCacheUtil.cacheText(field, field.text, option);
   }
 }
 

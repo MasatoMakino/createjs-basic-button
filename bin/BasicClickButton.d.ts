@@ -20,8 +20,9 @@ export declare class BasicClickButton extends createjs.Container {
     protected labelColors: ButtonLabelColorSet;
     /**
      * コンストラクタ
+     * @param {ButtonMaterialSet} materials 状態セット
      */
-    constructor();
+    constructor(materials?: ButtonMaterialSet);
     /**
      * ボタンに対するマウスハンドリングを開始する。
      */
@@ -31,7 +32,11 @@ export declare class BasicClickButton extends createjs.Container {
      * @param {ButtonMaterialSet} materials
      */
     initMaterial(materials: ButtonMaterialSet): void;
-    protected updateMaterialVisible(type: BasicButtonState): void;
+    /**
+     * 状態表示およびラベル文字色を、状態に応じて更新する。
+     * @param {BasicButtonState} state
+     */
+    protected updateMaterialVisible(state: BasicButtonState): void;
     /**
      * ボタンを押す
      * @param e
@@ -132,6 +137,12 @@ export declare class ButtonMaterialSet {
      */
     static addChild(button: BasicClickButton, material: ButtonMaterialSet): void;
     /**
+     * 全ての表示パーツを配列として取得する。
+     * @param {ButtonMaterialSet} materials
+     * @returns {createjs.DisplayObject[]}
+     */
+    private static getMaterialArray;
+    /**
      * 可視状態をstateに合わせて更新する
      * @param {ButtonMaterialSet} material
      * @param {BasicButtonState} state
@@ -162,7 +173,20 @@ export declare class ButtonLabelColorSet {
     selectNormal?: string;
     selectOver?: string;
     selectDown?: string;
+    /**
+     * ラベル文字色をボタン状態に応じて更新する。
+     * @param {createjs.Text} field 更新対象ラベル
+     * @param {ButtonLabelColorSet} colors 状態文字色セット
+     * @param {BasicButtonState} state ボタン状態
+     */
     static update(field: Text, colors: ButtonLabelColorSet, state: BasicButtonState): void;
+    /**
+     * 状態に対応した文字色を取り出す。
+     * @param {ButtonLabelColorSet} colors
+     * @param {BasicButtonState} state
+     * @returns {string}
+     */
+    private static getColor;
 }
 /**
  * ボタン状態を表す定数
