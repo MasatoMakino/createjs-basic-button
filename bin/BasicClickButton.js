@@ -181,17 +181,22 @@ export class BasicClickButton extends createjs.Container {
      * @returns {string}
      */
     get label() {
-        return this._label;
+        if (!this._labelField)
+            return null;
+        return this._labelField.text;
     }
     /**
      * ボタンラベルの文言を更新する。
      * @param {string} value
      */
     set label(value) {
-        this._label = value;
-        if (this._labelField) {
-            CreatejsCacheUtil.cacheText(this._labelField, value);
+        if (!this._labelField) {
+            console.warn("BasicButton : " +
+                "ボタンラベルが初期化されていませんが、ラベルの文言が指定されました。" +
+                "文言を指定する前にラベルの初期化をaddLabel関数で行ってください。");
+            return;
         }
+        CreatejsCacheUtil.cacheText(this._labelField, value);
     }
     get isOver() {
         return this._isOver;

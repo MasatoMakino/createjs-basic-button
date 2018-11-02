@@ -21,7 +21,6 @@ export class BasicClickButton extends createjs.Container {
 
   /*ボタンラベル*/
   protected _labelField!: createjs.Text; //ラベル表示用のテキストフィールド
-  protected _label!: string; //ラベルの内容
   protected labelColors!: ButtonLabelColorSet; //ラベルの色のセット。各状態のラベルの文字色を格納する。
 
   /**
@@ -215,8 +214,9 @@ export class BasicClickButton extends createjs.Container {
    * ボタンラベルに表示されている文言を取得する。
    * @returns {string}
    */
-  get label(): string {
-    return this._label;
+  get label(): string | null {
+    if (!this._labelField) return null;
+    return this._labelField.text;
   }
 
   /**
@@ -224,10 +224,15 @@ export class BasicClickButton extends createjs.Container {
    * @param {string} value
    */
   set label(value: string) {
-    this._label = value;
-    if (this._labelField) {
-      CreatejsCacheUtil.cacheText(this._labelField, value);
+    if (!this._labelField) {
+      console.warn(
+        "BasicButton : " +
+          "ボタンラベルが初期化されていませんが、ラベルの文言が指定されました。" +
+          "文言を指定する前にラベルの初期化をaddLabel関数で行ってください。"
+      );
+      return;
     }
+    CreatejsCacheUtil.cacheText(this._labelField, value);
   }
 
   get isOver(): boolean {
