@@ -24,7 +24,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
    * ラジオボタンのグループにボタンを追加する。
    * @param {BasicRadioButton} button
    */
-  public addButton(button: BasicRadioButton): void {
+  public add(button: BasicRadioButton): void {
     this._buttons.push(button);
     button.addEventListener(BasicButtonEventType.SELECTED, (e: any) => {
       const evt = e as BasicButtonEvent;

@@ -21,7 +21,7 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
      * ラジオボタンのグループにボタンを追加する。
      * @param {BasicRadioButton} button
      */
-    addButton(button: BasicRadioButton): void;
+    add(button: BasicRadioButton): void;
     /**
      * 初期選択ボタンを指定する。
      * nullを引数に取ると全ての選択を解除する。
