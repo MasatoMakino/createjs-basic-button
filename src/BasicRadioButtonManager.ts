@@ -33,7 +33,7 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
   }
 
   /**
-   * 初期選択ボタンを指定する。
+   * ボタンを選択する。
    * nullを引数に取ると全ての選択を解除する。
    * @param {BasicRadioButton} selectedButton
    */
@@ -59,9 +59,15 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
     selectedButton.selectButton();
   }
 
-  get selected(): BasicRadioButton | undefined {
+  /**
+   * 選択済みのボタンを取得する。
+   * 選択されていない場合はnullを返す。
+   * @returns {BasicRadioButton | null}
+   */
+  get selected(): BasicRadioButton | null {
     return this._selected;
   }
+
   /**
    * 指定されたボタン以外の選択を解除し、BasicRadioButtonManagerからSELECTEDイベントを発行する。
    * @param {BasicRadioButton} selectedButton
