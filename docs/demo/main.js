@@ -120,10 +120,10 @@ const testRadioButtons = () => {
   manager.add(getRadioButton(180 * 3, "button03"));
 
   //複数回initSelectionを行っても問題ないか確認。
-  manager.initSelection(manager.buttons[0]);
-  manager.initSelection(null);
-  manager.initSelection(manager.buttons[1]);
-  manager.initSelection(manager.buttons[2]);
+  manager.selected = manager.buttons[0];
+  manager.selected = null;
+  manager.selected = manager.buttons[1];
+  manager.selected = manager.buttons[2];
 
   manager.addEventListener(BasicButtonEventType.SELECTED, e => {
     const evt = e;
@@ -146,7 +146,7 @@ const testRadioMarkerButtons = () => {
   manager.add(getRadioButton(180 * 1, "button01", 480, getMarker()));
   manager.add(getRadioButton(180 * 2, "button02", 480, getMarker()));
   manager.add(getRadioButton(180 * 3, "button03", 480, getMarker()));
-  manager.initSelection(manager.buttons[0]);
+  manager.selected = manager.buttons[0];
 };
 
 const testRadioLabelButtons = () => {
@@ -159,7 +159,7 @@ const testRadioLabelButtons = () => {
   for (let btn of manager.buttons) {
     addLabel(btn, btn.buttonValue);
   }
-  manager.initSelection(manager.buttons[0]);
+  manager.selected = manager.buttons[0];
 };
 
 const addLabel = (btn, label) => {

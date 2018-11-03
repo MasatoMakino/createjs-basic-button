@@ -12,7 +12,7 @@ import { BasicRadioButton } from "./BasicRadioButton";
  * let btn:BasicRadioButton = new BasicRadioButton(...);
  * let manager:BasicRadioButtonManager = new BasicRadioButtonManager(); //インスタンス化
  * manager.addButton(btn);
- * manager.initSelection(btn); //デフォルトで選択されているボタンを指定
+ * manager.selected = btn; //デフォルトで選択されているボタンを指定
  */
 export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     protected _buttons: BasicRadioButton[];
@@ -27,7 +27,7 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
      * nullを引数に取ると全ての選択を解除する。
      * @param {BasicRadioButton} selectedButton
      */
-    initSelection(selectedButton?: BasicRadioButton): void;
+    selected: BasicRadioButton;
     /**
      * 指定されたボタン以外の選択を解除し、BasicRadioButtonManagerからSELECTEDイベントを発行する。
      * @param {BasicRadioButton} selectedButton
@@ -42,7 +42,6 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     disableMouseAll(): void;
     enableAll(): void;
     enableMouseAll(): void;
-    readonly selected: BasicRadioButton | undefined;
     /**
      * 現在選択されているボタンのbuttonValueを取得する。
      * 選択されたボタンがない場合はnullを返す。
