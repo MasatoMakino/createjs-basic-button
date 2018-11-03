@@ -1,1 +1,1 @@
-{"version":3,"file":"BasicRadioButton.d.ts","sourceRoot":"","sources":["../src/BasicRadioButton.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAEtD;;GAEG;AACH,qBAAa,gBAAiB,SAAQ,gBAAgB;IAC7C,aAAa,IAAI,OAAO;CAMhC"}
+{"version":3,"file":"BasicRadioButton.d.ts","sourceRoot":"","sources":["../src/BasicRadioButton.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAEtD;;GAEG;AACH,qBAAa,gBAAiB,SAAQ,gBAAgB;IACpD;;;;OAIG;IACH,SAAS,CAAC,aAAa,IAAI,OAAO;CAInC"}

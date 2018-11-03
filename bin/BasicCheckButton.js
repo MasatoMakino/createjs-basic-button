@@ -6,47 +6,33 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 export class BasicCheckButton extends BasicClickButton {
     constructor() {
         super(...arguments);
-        this.isSelect = false;
+        this._isSelect = false;
     }
-    /**
-     * ボタンがmousedownされた際の処理。
-     * @param {createjs.MouseEvent} evt
-     */
     pressButton(evt) {
         if (!this.checkActivity())
             return;
         this.isPressed = true;
-        if (this.isSelect) {
-            this.updateMaterialVisible(BasicButtonState.SELECT_DOWN);
-        }
-        else {
-            super.pressButton(evt);
-        }
+        const state = this._isSelect
+            ? BasicButtonState.SELECT_DOWN
+            : BasicButtonState.NORMAL_DOWN;
+        this.updateMaterialVisible(state);
     }
-    /**
-     * ボタンがmouseupされた際の処理。
-     * @param {createjs.MouseEvent} evt
-     */
     releaseButton(evt) {
         if (!this.checkActivity())
             return;
         if (!this.isPressed)
             return;
         this.isPressed = false;
-        if (this.isSelect)
+        if (this._isSelect)
             this.deselectButton(evt);
         else
             this.selectButton(evt);
     }
-    /**
-     * ボタンがmouseoverされた際の処理
-     * @param {createjs.MouseEvent} evt
-     */
     overButton(evt) {
         super.overButton(evt);
         if (!this.checkActivity())
             return;
-        const state = this.isSelect
+        const state = this._isSelect
             ? BasicButtonState.SELECT_OVER
             : BasicButtonState.NORMAL_OVER;
         this.updateMaterialVisible(state);
@@ -54,7 +40,7 @@ export class BasicCheckButton extends BasicClickButton {
     outButton(evt) {
         super.outButton(evt);
         if (!this.isDisable) {
-            const state = this.isSelect
+            const state = this._isSelect
                 ? BasicButtonState.SELECT
                 : BasicButtonState.NORMAL;
             this.updateMaterialVisible(state);
@@ -63,12 +49,13 @@ export class BasicCheckButton extends BasicClickButton {
             return;
     }
     /**
+     * ボタンを選択する。
      * @param {createjs.MouseEvent} evt
      */
     selectButton(evt) {
-        if (this.isSelect)
+        if (this._isSelect)
             return;
-        this.isSelect = true;
+        this._isSelect = true;
         if (!this.isDisable) {
             const state = this.isOver
                 ? BasicButtonState.SELECT_OVER
@@ -79,8 +66,12 @@ export class BasicCheckButton extends BasicClickButton {
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
     }
+    /**
+     * ボタンの選択を解除する。
+     * @param {createjs.MouseEvent} evt
+     */
     deselectButton(evt) {
-        if (!this.isSelect)
+        if (!this._isSelect)
             return;
         if (!this.isDisable) {
             const state = this.isOver
@@ -88,17 +79,14 @@ export class BasicCheckButton extends BasicClickButton {
                 : BasicButtonState.NORMAL;
             this.updateMaterialVisible(state);
         }
-        this.isSelect = false;
+        this._isSelect = false;
         const buttonEvt = new BasicButtonEvent(BasicButtonEventType.UNSELECTED);
         buttonEvt.buttonValue = this.buttonValue;
         this.dispatchEvent(buttonEvt);
     }
-    /**
-     * ボタンを操作可能にする。
-     */
     enableButton() {
         super.enableButton();
-        const state = this.isSelect
+        const state = this._isSelect
             ? BasicButtonState.SELECT
             : BasicButtonState.NORMAL;
         this.updateMaterialVisible(state);
@@ -107,7 +95,7 @@ export class BasicCheckButton extends BasicClickButton {
         if (this.isDisable)
             return BasicButtonState.DISABLE;
         else {
-            if (this.isSelect)
+            if (this._isSelect)
                 return BasicButtonState.SELECT;
             else
                 return BasicButtonState.NORMAL;
@@ -118,6 +106,6 @@ export class BasicCheckButton extends BasicClickButton {
      * @returns {boolean}
      */
     get selection() {
-        return this.isSelect;
+        return this._isSelect;
     }
 }

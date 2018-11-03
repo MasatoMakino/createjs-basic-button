@@ -4,31 +4,21 @@ import { BasicClickButton, BasicButtonState } from "./BasicClickButton";
  * 選択状態を持つボタンクラス。
  */
 export declare class BasicCheckButton extends BasicClickButton {
-    isSelect: boolean;
-    /**
-     * ボタンがmousedownされた際の処理。
-     * @param {createjs.MouseEvent} evt
-     */
+    protected _isSelect: boolean;
     pressButton(evt?: createjs.MouseEvent): void;
-    /**
-     * ボタンがmouseupされた際の処理。
-     * @param {createjs.MouseEvent} evt
-     */
     releaseButton(evt?: createjs.MouseEvent): void;
-    /**
-     * ボタンがmouseoverされた際の処理
-     * @param {createjs.MouseEvent} evt
-     */
     overButton(evt?: createjs.MouseEvent): void;
     outButton(evt?: createjs.MouseEvent): void;
     /**
+     * ボタンを選択する。
      * @param {createjs.MouseEvent} evt
      */
     selectButton(evt?: createjs.MouseEvent): void;
-    deselectButton(evt?: createjs.MouseEvent): void;
     /**
-     * ボタンを操作可能にする。
+     * ボタンの選択を解除する。
+     * @param {createjs.MouseEvent} evt
      */
+    deselectButton(evt?: createjs.MouseEvent): void;
     enableButton(): void;
     getButtonState(): BasicButtonState;
     /**

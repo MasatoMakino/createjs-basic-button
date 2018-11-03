@@ -176,7 +176,7 @@ export class BasicClickButton extends createjs.Container {
    * 現在のボタンの有効、無効状態を取得する
    * @return    ボタンが有効か否か
    */
-  public checkActivity(): boolean {
+  protected checkActivity(): boolean {
     return !this.isDisable && this.mouseEnabled;
   }
 

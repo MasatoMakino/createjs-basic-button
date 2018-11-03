@@ -5,46 +5,33 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
  * 選択状態を持つボタンクラス。
  */
 export class BasicCheckButton extends BasicClickButton {
-  isSelect: boolean = false;
+  protected _isSelect: boolean = false;
 
-  /**
-   * ボタンがmousedownされた際の処理。
-   * @param {createjs.MouseEvent} evt
-   */
   public pressButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;
     this.isPressed = true;
 
-    if (this.isSelect) {
-      this.updateMaterialVisible(BasicButtonState.SELECT_DOWN);
-    } else {
-      super.pressButton(evt);
-    }
+    const state = this._isSelect
+      ? BasicButtonState.SELECT_DOWN
+      : BasicButtonState.NORMAL_DOWN;
+    this.updateMaterialVisible(state);
   }
 
-  /**
-   * ボタンがmouseupされた際の処理。
-   * @param {createjs.MouseEvent} evt
-   */
   public releaseButton(evt?: createjs.MouseEvent): void {
     if (!this.checkActivity()) return;
 
     if (!this.isPressed) return;
     this.isPressed = false;
 
-    if (this.isSelect) this.deselectButton(evt);
+    if (this._isSelect) this.deselectButton(evt);
     else this.selectButton(evt);
   }
 
-  /**
-   * ボタンがmouseoverされた際の処理
-   * @param {createjs.MouseEvent} evt
-   */
   public overButton(evt?: createjs.MouseEvent): void {
     super.overButton(evt);
 
     if (!this.checkActivity()) return;
-    const state = this.isSelect
+    const state = this._isSelect
       ? BasicButtonState.SELECT_OVER
       : BasicButtonState.NORMAL_OVER;
     this.updateMaterialVisible(state);
@@ -54,7 +41,7 @@ export class BasicCheckButton extends BasicClickButton {
     super.outButton(evt);
 
     if (!this.isDisable) {
-      const state = this.isSelect
+      const state = this._isSelect
         ? BasicButtonState.SELECT
         : BasicButtonState.NORMAL;
       this.updateMaterialVisible(state);
@@ -63,12 +50,13 @@ export class BasicCheckButton extends BasicClickButton {
   }
 
   /**
+   * ボタンを選択する。
    * @param {createjs.MouseEvent} evt
    */
   public selectButton(evt?: createjs.MouseEvent): void {
-    if (this.isSelect) return;
+    if (this._isSelect) return;
 
-    this.isSelect = true;
+    this._isSelect = true;
     if (!this.isDisable) {
       const state = this.isOver
         ? BasicButtonState.SELECT_OVER
@@ -83,8 +71,12 @@ export class BasicCheckButton extends BasicClickButton {
     this.dispatchEvent(buttonEvt);
   }
 
+  /**
+   * ボタンの選択を解除する。
+   * @param {createjs.MouseEvent} evt
+   */
   public deselectButton(evt?: createjs.MouseEvent): void {
-    if (!this.isSelect) return;
+    if (!this._isSelect) return;
 
     if (!this.isDisable) {
       const state = this.isOver
@@ -92,7 +84,7 @@ export class BasicCheckButton extends BasicClickButton {
         : BasicButtonState.NORMAL;
       this.updateMaterialVisible(state);
     }
-    this.isSelect = false;
+    this._isSelect = false;
 
     const buttonEvt: BasicButtonEvent = new BasicButtonEvent(
       BasicButtonEventType.UNSELECTED
@@ -101,12 +93,9 @@ export class BasicCheckButton extends BasicClickButton {
     this.dispatchEvent(buttonEvt);
   }
 
-  /**
-   * ボタンを操作可能にする。
-   */
   public enableButton(): void {
     super.enableButton();
-    const state = this.isSelect
+    const state = this._isSelect
       ? BasicButtonState.SELECT
       : BasicButtonState.NORMAL;
     this.updateMaterialVisible(state);
@@ -115,7 +104,7 @@ export class BasicCheckButton extends BasicClickButton {
   public getButtonState(): BasicButtonState {
     if (this.isDisable) return BasicButtonState.DISABLE;
     else {
-      if (this.isSelect) return BasicButtonState.SELECT;
+      if (this._isSelect) return BasicButtonState.SELECT;
       else return BasicButtonState.NORMAL;
     }
   }
@@ -125,6 +114,6 @@ export class BasicCheckButton extends BasicClickButton {
    * @returns {boolean}
    */
   get selection(): boolean {
-    return this.isSelect;
+    return this._isSelect;
   }
 }

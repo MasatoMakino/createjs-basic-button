@@ -15,9 +15,14 @@ import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
  */
 export class BasicRadioButtonManager extends createjs.EventDispatcher {
     constructor() {
-        super();
+        super(...arguments);
         this._buttons = [];
+        this._selected = null;
     }
+    /**
+     * ラジオボタンのグループにボタンを追加する。
+     * @param {BasicRadioButton} button
+     */
     addButton(button) {
         this._buttons.push(button);
         button.addEventListener(BasicButtonEventType.SELECTED, (e) => {
@@ -31,33 +36,45 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
      * @param {BasicRadioButton} selectedButton
      */
     initSelection(selectedButton) {
-        this.selected = selectedButton;
+        this._selected = selectedButton;
         if (selectedButton == null) {
             this.deselectAllButtons();
             return;
         }
-        for (let btn of this._buttons) {
-            if (selectedButton === btn) {
-                btn.selectButton();
-            }
+        //選択されたボタンがこのインスタンスの管理下か確認する。
+        const index = this._buttons.indexOf(selectedButton);
+        if (index === -1) {
+            console.warn("BasicRadioButtonManager : " +
+                "選択対象として指定されたボタンが、BasicRadioButtonManagerの管理下にありません。" +
+                "指定を行う前にaddButton関数でボタンをBasicRadioButtonManagerに登録してください。");
+            return;
         }
+        selectedButton.selectButton();
     }
+    /**
+     * 指定されたボタン以外の選択を解除し、BasicRadioButtonManagerからSELECTEDイベントを発行する。
+     * @param {BasicRadioButton} selectedButton
+     * @param {boolean} isDispatchSelectEvent
+     */
     deselectOthers(selectedButton, isDispatchSelectEvent = true) {
-        this.selected = selectedButton;
+        this._selected = selectedButton;
         for (let btn of this._buttons) {
             if (btn != selectedButton) {
                 btn.deselectButton();
             }
         }
         if (isDispatchSelectEvent) {
-            let evt = new BasicButtonEvent(BasicButtonEventType.SELECTED);
-            evt.buttonValue = this.selected.buttonValue;
-            evt.index = this._buttons.indexOf(this.selected);
+            const evt = new BasicButtonEvent(BasicButtonEventType.SELECTED);
+            evt.buttonValue = this._selected.buttonValue;
+            evt.index = this._buttons.indexOf(this._selected);
             this.dispatchEvent(evt);
         }
     }
+    /**
+     * 管理下の全てのボタンの選択を解除する。
+     */
     deselectAllButtons() {
-        this.selected = undefined;
+        this._selected = null;
         for (let btn of this._buttons) {
             btn.deselectButton();
         }
@@ -84,23 +101,25 @@ export class BasicRadioButtonManager extends createjs.EventDispatcher {
             btn.mouseEnabled = true;
         }
     }
-    getSelectedButton() {
-        return this.selected;
+    get selected() {
+        return this._selected;
     }
-    getButtonValue() {
-        const btn = this.getSelectedButton();
+    /**
+     * 現在選択されているボタンのbuttonValueを取得する。
+     * 選択されたボタンがない場合はnullを返す。
+     * @returns {any}
+     */
+    get selectedButtonValue() {
+        const btn = this.selected;
         if (btn) {
             return btn.buttonValue;
         }
         return null;
     }
-    refreshButtons(value) {
-        for (let btn of this._buttons) {
-            if (btn.buttonValue === value) {
-                btn.selectButton();
-            }
-        }
-    }
+    /**
+     * このインスタンスで管理をしているラジオボタンの配列を取得する。
+     * @returns {BasicRadioButton[]}
+     */
     get buttons() {
         return this._buttons;
     }

@@ -118,7 +118,13 @@ const testRadioButtons = () => {
   manager.addButton(getRadioButton(180 * 1, "button01"));
   manager.addButton(getRadioButton(180 * 2, "button02"));
   manager.addButton(getRadioButton(180 * 3, "button03"));
+
+  //複数回initSelectionを行っても問題ないか確認。
   manager.initSelection(manager.buttons[0]);
+  manager.initSelection(null);
+  manager.initSelection(manager.buttons[1]);
+  manager.initSelection(manager.buttons[2]);
+
   manager.addEventListener(BasicButtonEventType.SELECTED, e => {
     const evt = e;
     console.log(evt.buttonValue);

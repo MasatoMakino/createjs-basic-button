@@ -16,8 +16,11 @@ import { BasicRadioButton } from "./BasicRadioButton";
  */
 export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
     protected _buttons: BasicRadioButton[];
-    selected?: BasicRadioButton;
-    constructor();
+    protected _selected?: BasicRadioButton;
+    /**
+     * ラジオボタンのグループにボタンを追加する。
+     * @param {BasicRadioButton} button
+     */
     addButton(button: BasicRadioButton): void;
     /**
      * 初期選択ボタンを指定する。
@@ -25,15 +28,31 @@ export declare class BasicRadioButtonManager extends createjs.EventDispatcher {
      * @param {BasicRadioButton} selectedButton
      */
     initSelection(selectedButton?: BasicRadioButton): void;
-    deselectOthers(selectedButton: BasicRadioButton, isDispatchSelectEvent?: boolean): void;
+    /**
+     * 指定されたボタン以外の選択を解除し、BasicRadioButtonManagerからSELECTEDイベントを発行する。
+     * @param {BasicRadioButton} selectedButton
+     * @param {boolean} isDispatchSelectEvent
+     */
+    protected deselectOthers(selectedButton: BasicRadioButton, isDispatchSelectEvent?: boolean): void;
+    /**
+     * 管理下の全てのボタンの選択を解除する。
+     */
     deselectAllButtons(): void;
     disableAll(): void;
     disableMouseAll(): void;
     enableAll(): void;
     enableMouseAll(): void;
-    getSelectedButton(): BasicRadioButton | undefined;
-    getButtonValue(): any;
-    refreshButtons(value: any): void;
+    readonly selected: BasicRadioButton | undefined;
+    /**
+     * 現在選択されているボタンのbuttonValueを取得する。
+     * 選択されたボタンがない場合はnullを返す。
+     * @returns {any}
+     */
+    readonly selectedButtonValue: any;
+    /**
+     * このインスタンスで管理をしているラジオボタンの配列を取得する。
+     * @returns {BasicRadioButton[]}
+     */
     readonly buttons: BasicRadioButton[];
     /**
      * buttonValueを検索キーとして、該当するボタンを取得する。

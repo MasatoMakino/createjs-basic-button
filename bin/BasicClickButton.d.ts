@@ -72,7 +72,7 @@ export declare class BasicClickButton extends createjs.Container {
      * 現在のボタンの有効、無効状態を取得する
      * @return    ボタンが有効か否か
      */
-    checkActivity(): boolean;
+    protected checkActivity(): boolean;
     /**
      * 現在のボタンの状態を取得する
      * @returns {BasicButtonState}
