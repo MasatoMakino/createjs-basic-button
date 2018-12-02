@@ -3,7 +3,7 @@
   "version": "0.8.2",
   "description": "Basic button library for CreateJS.",
   "main": "./bin/BasicButton.js",
-  "types": "./bin/BasicButton.ts",
+  "types": "./bin/BasicButton.d.ts",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/createjs-basic-button.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
