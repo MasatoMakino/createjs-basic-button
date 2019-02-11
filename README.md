@@ -7,7 +7,7 @@
 
 ## Demo
 
-[Demo Page](https://masatomakino.github.io/createjs-basic-button/demo/demo.html)
+[Demo Page](https://masatomakino.github.io/createjs-basic-button/demo/index.html)
 
 ## Getting Started
 
