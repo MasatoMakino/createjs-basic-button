@@ -15,8 +15,8 @@ export declare class BasicClickButton extends createjs.Container {
     protected isOver: boolean;
     protected _buttonValue: any;
     protected material: ButtonMaterialSet;
-    protected _labelField: createjs.Text;
-    protected labelColors: ButtonLabelColorSet;
+    protected _labelField: createjs.Text[];
+    protected labelColors: ButtonLabelColorSet[];
     /**
      * コンストラクタ
      * @param {ButtonMaterialSet} materials 状態セット
@@ -92,12 +92,13 @@ export declare class BasicClickButton extends createjs.Container {
      * ボタンラベルに表示されている文言を取得する。
      * @returns {string}
      */
+    getLabel(index: any): string | null;
     /**
-    * ボタンラベルの文言を更新する。
-    * @param {string} value
-    */
-    label: string | null;
-    readonly labelField: Text;
+     * ボタンラベルの文言を更新する。
+     * @param {string} value
+     */
+    setLabel(index: number, value: string): void;
+    getLabelField(index: number): Text;
     buttonValue: any;
 }
 /**

@@ -18,6 +18,9 @@ export class BasicClickButton extends createjs.Container {
         this.isPressed = false; //ボタンが押されているか否か
         this.isOver = false; //マウスオーバーしているか否か
         this._buttonValue = null; //このボタンに割り当てられた値
+        /*ボタンラベル*/
+        this._labelField = []; //ラベル表示用のテキストフィールド
+        this.labelColors = []; //ラベルの色のセット。各状態のラベルの文字色を格納する。
         //childのマウスイベントが生きていると正常に動作しないため、処理をここで止める。
         this.mouseChildren = false;
         this.cursor = "pointer";
@@ -66,10 +69,10 @@ export class BasicClickButton extends createjs.Container {
         ButtonMaterialSet.addChild(this, materials);
         this.updateMaterialVisible(this.getButtonState());
         //テキストラベルがあったら最前線に。
-        if (this._labelField) {
-            this.removeChild(this._labelField);
-            this.addChild(this._labelField);
-        }
+        this._labelField.forEach(label => {
+            this.removeChild(label);
+            this.addChild(label);
+        });
     }
     /**
      * 状態表示およびラベル文字色を、状態に応じて更新する。
@@ -77,7 +80,9 @@ export class BasicClickButton extends createjs.Container {
      */
     updateMaterialVisible(state) {
         ButtonMaterialSet.updateVisible(this.material, state);
-        ButtonLabelColorSet.update(this._labelField, this.labelColors, state);
+        this._labelField.forEach((label, index) => {
+            ButtonLabelColorSet.update(label, this.labelColors[index], state);
+        });
     }
     /**
      * ボタン上でマウスダウンした際の処理。
@@ -172,45 +177,42 @@ export class BasicClickButton extends createjs.Container {
      * @param {string} textAlign
      */
     addLabel(x, y, label, font, color, textAlign) {
-        if (this._labelField) {
-            this._labelField.parent.removeChild(this._labelField);
-            this._labelField = null;
-        }
-        this.labelColors = color;
-        this._labelField = new createjs.Text("", font, color.normal);
-        this._labelField.x = x;
-        this._labelField.y = y;
+        this.labelColors.push(color);
+        const field = new createjs.Text("", font, color.normal);
+        this._labelField.push(field);
+        field.x = x;
+        field.y = y;
         if (textAlign)
-            this._labelField.textAlign = textAlign;
-        this._labelField.textBaseline = "alphabetic";
-        this._labelField.mouseEnabled = false;
-        CreatejsCacheUtil.cacheText(this._labelField, label);
-        this.addChild(this._labelField);
+            field.textAlign = textAlign;
+        field.textBaseline = "alphabetic";
+        field.mouseEnabled = false;
+        CreatejsCacheUtil.cacheText(field, label);
+        this.addChild(field);
     }
     /**
      * ボタンラベルに表示されている文言を取得する。
      * @returns {string}
      */
-    get label() {
+    getLabel(index) {
         if (!this._labelField)
             return null;
-        return this._labelField.text;
+        return this._labelField[index].text;
     }
     /**
      * ボタンラベルの文言を更新する。
      * @param {string} value
      */
-    set label(value) {
-        if (!this._labelField) {
+    setLabel(index, value) {
+        if (this._labelField.length === 0) {
             console.warn("BasicButton : " +
                 "ボタンラベルが初期化されていませんが、ラベルの文言が指定されました。" +
                 "文言を指定する前にラベルの初期化をaddLabel関数で行ってください。");
             return;
         }
-        CreatejsCacheUtil.cacheText(this._labelField, value);
+        CreatejsCacheUtil.cacheText(this._labelField[index], value);
     }
-    get labelField() {
-        return this._labelField;
+    getLabelField(index) {
+        return this._labelField[index];
     }
     get buttonValue() {
         return this._buttonValue;

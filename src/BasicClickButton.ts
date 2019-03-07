@@ -20,8 +20,8 @@ export class BasicClickButton extends createjs.Container {
   protected material!: ButtonMaterialSet; //状態マテリアル 状態によって表示が切り替わるもの。
 
   /*ボタンラベル*/
-  protected _labelField!: createjs.Text; //ラベル表示用のテキストフィールド
-  protected labelColors!: ButtonLabelColorSet; //ラベルの色のセット。各状態のラベルの文字色を格納する。
+  protected _labelField: createjs.Text[] = []; //ラベル表示用のテキストフィールド
+  protected labelColors: ButtonLabelColorSet[] = []; //ラベルの色のセット。各状態のラベルの文字色を格納する。
 
   /**
    * コンストラクタ
@@ -86,10 +86,10 @@ export class BasicClickButton extends createjs.Container {
     this.updateMaterialVisible(this.getButtonState());
 
     //テキストラベルがあったら最前線に。
-    if (this._labelField) {
-      this.removeChild(this._labelField);
-      this.addChild(this._labelField);
-    }
+    this._labelField.forEach(label => {
+      this.removeChild(label);
+      this.addChild(label);
+    });
   }
 
   /**
@@ -98,7 +98,9 @@ export class BasicClickButton extends createjs.Container {
    */
   protected updateMaterialVisible(state: BasicButtonState) {
     ButtonMaterialSet.updateVisible(this.material, state);
-    ButtonLabelColorSet.update(this._labelField, this.labelColors, state);
+    this._labelField.forEach((label, index) => {
+      ButtonLabelColorSet.update(label, this.labelColors[index], state);
+    });
   }
 
   /**
@@ -206,37 +208,33 @@ export class BasicClickButton extends createjs.Container {
     color: ButtonLabelColorSet,
     textAlign?: string
   ): void {
-    if (this._labelField) {
-      this._labelField.parent.removeChild(this._labelField);
-      this._labelField = null;
-    }
-
-    this.labelColors = color;
-    this._labelField = new createjs.Text("", font, color.normal);
-    this._labelField.x = x;
-    this._labelField.y = y;
-    if (textAlign) this._labelField.textAlign = textAlign;
-    this._labelField.textBaseline = "alphabetic";
-    this._labelField.mouseEnabled = false;
-    CreatejsCacheUtil.cacheText(this._labelField, label);
-    this.addChild(this._labelField);
+    this.labelColors.push(color);
+    const field = new createjs.Text("", font, color.normal);
+    this._labelField.push(field);
+    field.x = x;
+    field.y = y;
+    if (textAlign) field.textAlign = textAlign;
+    field.textBaseline = "alphabetic";
+    field.mouseEnabled = false;
+    CreatejsCacheUtil.cacheText(field, label);
+    this.addChild(field);
   }
 
   /**
    * ボタンラベルに表示されている文言を取得する。
    * @returns {string}
    */
-  get label(): string | null {
+  public getLabel(index): string | null {
     if (!this._labelField) return null;
-    return this._labelField.text;
+    return this._labelField[index].text;
   }
 
   /**
    * ボタンラベルの文言を更新する。
    * @param {string} value
    */
-  set label(value: string) {
-    if (!this._labelField) {
+  public setLabel(index: number, value: string) {
+    if (this._labelField.length === 0) {
       console.warn(
         "BasicButton : " +
           "ボタンラベルが初期化されていませんが、ラベルの文言が指定されました。" +
@@ -244,11 +242,11 @@ export class BasicClickButton extends createjs.Container {
       );
       return;
     }
-    CreatejsCacheUtil.cacheText(this._labelField, value);
+    CreatejsCacheUtil.cacheText(this._labelField[index], value);
   }
 
-  get labelField(): Text {
-    return this._labelField;
+  public getLabelField(index: number): Text {
+    return this._labelField[index];
   }
 
   get buttonValue(): any {

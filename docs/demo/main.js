@@ -76,6 +76,8 @@ const testCheckButton = () => {
   testButton.x = 180 * 2;
   testButton.y = 180;
   addLabel(testButton, "C");
+  addLabel(testButton, "CCCC", 24);
+
   stage.addChild(testButton);
 
   testButton.addEventListener("click", e => {
@@ -162,8 +164,11 @@ const testRadioLabelButtons = () => {
   manager.selected = manager.buttons[0];
 };
 
-const addLabel = (btn, label) => {
-  btn.addLabel(64 / 2, 32 / 2, label, "16px sans", getLabelColors(), "center");
+const addLabel = (btn, label, y) => {
+  if (y == null) {
+    y = 32 / 2;
+  }
+  btn.addLabel(64 / 2, y, label, "16px sans", getLabelColors(), "center");
 };
 const getLabelColors = () => {
   const colors = {
