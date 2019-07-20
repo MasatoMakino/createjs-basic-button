@@ -34,20 +34,17 @@ export class BasicClickButton extends createjs.Container {
     this.mouseChildren = false;
     this.cursor = "pointer";
     this.setMouseEvents();
-    this.addEventListener(
-      "added",
-      (e: any): void => {
-        if (!this.stage) return;
+    this.addEventListener("added", (e: any): void => {
+      if (!this.stage) return;
 
-        e.remove();
-        if ((<any>this.stage)._mouseOverIntervalID != null) return;
-        console.warn(
-          "BasicButton : stageはmouseoverイベントを処理していません。" +
-            "そのためボタンのマウスオーバー処理が正常に働いていません。" +
-            "stage.enableMouseOver()を実行してからボタンを配置してください。"
-        );
-      }
-    );
+      e.remove();
+      if ((<any>this.stage)._mouseOverIntervalID != null) return;
+      console.warn(
+        "BasicButton : stageはmouseoverイベントを処理していません。" +
+          "そのためボタンのマウスオーバー処理が正常に働いていません。" +
+          "stage.enableMouseOver()を実行してからボタンを配置してください。"
+      );
+    });
 
     if (materials) this.initMaterial(materials);
   }
