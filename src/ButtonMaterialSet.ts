@@ -4,17 +4,46 @@ import { BasicClickButton } from "./BasicClickButton";
 import DisplayObject = createjs.DisplayObject;
 import Text = createjs.Text;
 
+class ButtonOptionSet<T> {
+  normal!: T;
+  over?: T;
+  down?: T;
+  disable?: T;
+  selectNormal?: T;
+  selectOver?: T;
+  selectDown?: T;
+
+  /**
+   * stateに対応するオプション値を取り出す
+   * @param state
+   */
+  public static getMaterial<T>(
+    set: ButtonOptionSet<T>,
+    state: BasicButtonState
+  ): T {
+    switch (state) {
+      case BasicButtonState.DISABLE:
+        return set.disable || set.normal;
+      case BasicButtonState.NORMAL_OVER:
+        return set.over || set.normal;
+      case BasicButtonState.NORMAL_DOWN:
+        return set.down || set.normal;
+      case BasicButtonState.SELECT:
+        return set.selectNormal || set.normal;
+      case BasicButtonState.SELECT_OVER:
+        return set.selectOver || set.normal;
+      case BasicButtonState.SELECT_DOWN:
+        return set.selectDown || set.normal;
+      default:
+        return set.normal;
+    }
+  }
+}
+
 /**
  * ボタンの状態に応じて表示されるDisplayObjectを格納するクラス。
  */
-export class ButtonMaterialSet {
-  normal!: DisplayObject;
-  over?: DisplayObject;
-  down?: DisplayObject;
-  disable?: DisplayObject;
-  selectNormal?: DisplayObject;
-  selectOver?: DisplayObject;
-  selectDown?: DisplayObject;
+export class ButtonMaterialSet extends ButtonOptionSet<DisplayObject> {
   selectMarker?: DisplayObject;
 
   /**
@@ -95,49 +124,13 @@ export class ButtonMaterialSet {
       if (mat != null) mat.visible = false;
     }
   }
-
-  /**
-   * stateに対応する状態パーツを取り出す
-   * @param {ButtonMaterialSet} material
-   * @param {BasicButtonState} state
-   * @returns {createjs.DisplayObject}
-   */
-  private static getMaterial(
-    material: ButtonMaterialSet,
-    state: BasicButtonState
-  ): DisplayObject {
-    switch (state) {
-      case BasicButtonState.DISABLE:
-        return material.disable || material.normal;
-      case BasicButtonState.NORMAL_OVER:
-        return material.over || material.normal;
-      case BasicButtonState.NORMAL_DOWN:
-        return material.down || material.normal;
-      case BasicButtonState.SELECT:
-        return material.selectNormal || material.normal;
-      case BasicButtonState.SELECT_OVER:
-        return material.selectOver || material.normal;
-      case BasicButtonState.SELECT_DOWN:
-        return material.selectDown || material.normal;
-      default:
-        return material.normal;
-    }
-  }
 }
 
 /**
  * テキストラベルの色についてのオプション。
  * 各ボタンのaddLabel関数でインスタンスに渡す。
  */
-export class ButtonLabelColorSet {
-  normal!: string;
-  over?: string;
-  down?: string;
-  disable?: string;
-  selectNormal?: string;
-  selectOver?: string;
-  selectDown?: string;
-
+export class ButtonLabelColorSet extends ButtonOptionSet<string> {
   /**
    * ラベル文字色をボタン状態に応じて更新する。
    * @param {createjs.Text} field 更新対象ラベル
@@ -152,36 +145,8 @@ export class ButtonLabelColorSet {
     if (field == null) return;
 
     const option = {
-      color: this.getColor(colors, state)
+      color: this.getMaterial(colors, state)
     };
     CreatejsCacheUtil.cacheText(field, field.text, option);
-  }
-
-  /**
-   * 状態に対応した文字色を取り出す。
-   * @param {ButtonLabelColorSet} colors
-   * @param {BasicButtonState} state
-   * @returns {string}
-   */
-  private static getColor(
-    colors: ButtonLabelColorSet,
-    state: BasicButtonState
-  ): string {
-    switch (state) {
-      case BasicButtonState.NORMAL_DOWN:
-        return colors.down || colors.normal;
-      case BasicButtonState.NORMAL_OVER:
-        return colors.over || colors.normal;
-      case BasicButtonState.DISABLE:
-        return colors.disable || colors.normal;
-      case BasicButtonState.SELECT:
-        return colors.selectNormal || colors.normal;
-      case BasicButtonState.SELECT_DOWN:
-        return colors.selectDown || colors.normal;
-      case BasicButtonState.SELECT_OVER:
-        return colors.selectOver || colors.normal;
-      default:
-        return colors.normal;
-    }
   }
 }
