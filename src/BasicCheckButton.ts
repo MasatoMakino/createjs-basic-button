@@ -1,4 +1,5 @@
-import { BasicClickButton, BasicButtonState } from "./BasicClickButton";
+import { BasicClickButton } from "./BasicClickButton";
+import { BasicButtonState } from "./BasicButtonState";
 import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 
 /**
