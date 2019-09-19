@@ -1,9 +1,6 @@
 export { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
-export {
-  BasicClickButton,
-  ButtonMaterialSet,
-  ButtonLabelColorSet
-} from "./BasicClickButton";
+export { BasicClickButton } from "./BasicClickButton";
+export * from "./ButtonMaterialSet";
 export * from "./BasicButtonState";
 export { BasicCheckButton } from "./BasicCheckButton";
 export { BasicRadioButton } from "./BasicRadioButton";
