@@ -1,6 +1,7 @@
 /// <reference types="easeljs" />
-import DisplayObject = createjs.DisplayObject;
 import Text = createjs.Text;
+import { BasicButtonState } from "./BasicButtonState";
+import { ButtonMaterialSet, ButtonLabelColorSet } from "./ButtonMaterialSet";
 /**
  * 基本ボタンクラス。
  * 選択状態を持たず、クリックした時点で結果が反映されるタイプのボタンです。
@@ -100,92 +101,5 @@ export declare class BasicClickButton extends createjs.Container {
     setLabel(index: number, value: string): void;
     getLabelField(index: number): Text;
     buttonValue: any;
-}
-/**
- * ボタンの状態に応じて表示されるDisplayObjectを格納するクラス。
- */
-export declare class ButtonMaterialSet {
-    normal: DisplayObject;
-    over?: DisplayObject;
-    down?: DisplayObject;
-    disable?: DisplayObject;
-    selectNormal?: DisplayObject;
-    selectOver?: DisplayObject;
-    selectDown?: DisplayObject;
-    selectMarker?: DisplayObject;
-    /**
-     * ボタン上に状態パーツを配置する
-     * @param {BasicClickButton} button
-     * @param {ButtonMaterialSet} material
-     */
-    static addChild(button: BasicClickButton, material: ButtonMaterialSet): void;
-    /**
-     * この状態セットに含まれるパーツを表示ツリー上から削除する。
-     * @param {ButtonMaterialSet} material
-     */
-    static remove(material: ButtonMaterialSet): void;
-    /**
-     * 全ての表示パーツを配列として取得する。
-     * @param {ButtonMaterialSet} materials
-     * @returns {createjs.DisplayObject[]}
-     */
-    private static getMaterialArray;
-    /**
-     * 可視状態をstateに合わせて更新する
-     * @param {ButtonMaterialSet} material
-     * @param {BasicButtonState} state
-     */
-    static updateVisible(material: ButtonMaterialSet, state: BasicButtonState): void;
-    /**
-     * 全てのパーツを不可視にする。
-     * @param {ButtonMaterialSet} material
-     */
-    private static invisibleAll;
-    /**
-     * stateに対応する状態パーツを取り出す
-     * @param {ButtonMaterialSet} material
-     * @param {BasicButtonState} state
-     * @returns {createjs.DisplayObject}
-     */
-    private static getMaterial;
-}
-/**
- * テキストラベルの色についてのオプション。
- * 各ボタンのaddLabel関数でインスタンスに渡す。
- */
-export declare class ButtonLabelColorSet {
-    normal: string;
-    over?: string;
-    down?: string;
-    disable?: string;
-    selectNormal?: string;
-    selectOver?: string;
-    selectDown?: string;
-    /**
-     * ラベル文字色をボタン状態に応じて更新する。
-     * @param {createjs.Text} field 更新対象ラベル
-     * @param {ButtonLabelColorSet} colors 状態文字色セット
-     * @param {BasicButtonState} state ボタン状態
-     */
-    static update(field: Text, colors: ButtonLabelColorSet, state: BasicButtonState): void;
-    /**
-     * 状態に対応した文字色を取り出す。
-     * @param {ButtonLabelColorSet} colors
-     * @param {BasicButtonState} state
-     * @returns {string}
-     */
-    private static getColor;
-}
-/**
- * ボタン状態を表す定数
- */
-export declare enum BasicButtonState {
-    NORMAL = "normal",
-    NORMAL_OVER = "normal_over",
-    NORMAL_DOWN = "normal_down",
-    DISABLE = "disable",
-    SELECT = "select",
-    SELECT_OVER = "select_over",
-    SELECT_DOWN = "select_down"
 }
 //# sourceMappingURL=BasicClickButton.d.ts.map

@@ -15,6 +15,7 @@ class ButtonOptionSet<T> {
 
   /**
    * stateに対応するオプション値を取り出す
+   * @param set
    * @param state
    */
   public static getMaterial<T>(
