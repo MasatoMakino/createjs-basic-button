@@ -81,14 +81,15 @@ export declare class BasicClickButton extends createjs.Container {
     getButtonState(): BasicButtonState;
     /**
      * ボタンラベルを追加する。
-     * @param {number} x ラベル位置
-     * @param {number} y ラベル位置
-     * @param {string} label ラベルに表示する文言
-     * @param {string} font フォント設定 createjs.Textのfont指定に準じる。
-     * @param {ButtonLabelColorSet} color
-     * @param {string} textAlign
+     * @param x ラベル位置
+     * @param y ラベル位置
+     * @param label ラベルに表示する文言
+     * @param font フォント設定 createjs.Textのfont指定に準じる。
+     * @param color
+     * @param textAlign
+     * @return テキストフィールドのインデックス値
      */
-    addLabel(x: number, y: number, label: string, font: string, color: ButtonLabelColorSet, textAlign?: string): void;
+    addLabel(x: number, y: number, label: string, font: string, color: ButtonLabelColorSet, textAlign?: string): number;
     /**
      * ボタンラベルに表示されている文言を取得する。
      * @returns {string}
@@ -96,10 +97,19 @@ export declare class BasicClickButton extends createjs.Container {
     getLabel(index: any): string | null;
     /**
      * ボタンラベルの文言を更新する。
-     * @param {string} value
+     * @param index
+     * @param value
      */
     setLabel(index: number, value: string): void;
     getLabelField(index: number): Text;
     buttonValue: any;
+    /**
+     * 当たり判定の矩形を指定する。
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
+    initHitRect(x: number, y: number, w: number, h: number): void;
 }
 //# sourceMappingURL=BasicClickButton.d.ts.map

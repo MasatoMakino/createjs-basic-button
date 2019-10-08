@@ -1,6 +1,7 @@
 import { CreatejsCacheUtil } from "createjs-cache-util";
 import { BasicButtonState } from "./BasicButtonState";
 import { ButtonMaterialSet, ButtonLabelColorSet } from "./ButtonMaterialSet";
+var Shape = createjs.Shape;
 /**
  * 基本ボタンクラス。
  * 選択状態を持たず、クリックした時点で結果が反映されるタイプのボタンです。
@@ -171,12 +172,13 @@ export class BasicClickButton extends createjs.Container {
     }
     /**
      * ボタンラベルを追加する。
-     * @param {number} x ラベル位置
-     * @param {number} y ラベル位置
-     * @param {string} label ラベルに表示する文言
-     * @param {string} font フォント設定 createjs.Textのfont指定に準じる。
-     * @param {ButtonLabelColorSet} color
-     * @param {string} textAlign
+     * @param x ラベル位置
+     * @param y ラベル位置
+     * @param label ラベルに表示する文言
+     * @param font フォント設定 createjs.Textのfont指定に準じる。
+     * @param color
+     * @param textAlign
+     * @return テキストフィールドのインデックス値
      */
     addLabel(x, y, label, font, color, textAlign) {
         this.labelColors.push(color);
@@ -190,6 +192,7 @@ export class BasicClickButton extends createjs.Container {
         field.mouseEnabled = false;
         CreatejsCacheUtil.cacheText(field, label);
         this.addChild(field);
+        return this._labelField.indexOf(field);
     }
     /**
      * ボタンラベルに表示されている文言を取得する。
@@ -202,7 +205,8 @@ export class BasicClickButton extends createjs.Container {
     }
     /**
      * ボタンラベルの文言を更新する。
-     * @param {string} value
+     * @param index
+     * @param value
      */
     setLabel(index, value) {
         if (this._labelField.length === 0) {
@@ -223,5 +227,20 @@ export class BasicClickButton extends createjs.Container {
         if (this._buttonValue != value) {
             this._buttonValue = value;
         }
+    }
+    /**
+     * 当たり判定の矩形を指定する。
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
+    initHitRect(x, y, w, h) {
+        const area = new Shape();
+        area.graphics
+            .beginFill("#000")
+            .drawRect(x, y, w, h)
+            .endFill();
+        this.hitArea = area;
     }
 }
