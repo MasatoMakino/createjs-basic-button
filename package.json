@@ -1,6 +1,6 @@
 {
   "name": "createjs-basic-button",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Basic button library for CreateJS.",
   "main": "./bin/BasicButton.js",
   "types": "./bin/BasicButton.d.ts",
