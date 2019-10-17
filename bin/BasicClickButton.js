@@ -20,6 +20,11 @@ export class BasicClickButton extends createjs.Container {
         this.isDisable = false; //ボタンが使用不可状態か否か
         this.isPressed = false; //ボタンが押されているか否か
         this.isOver = false; //マウスオーバーしているか否か
+        /**
+         * ボタンの凍結状態。
+         * trueに設定すると、ボタンの状態と外見を維持したまま、マウス操作を無視する。
+         */
+        this._frozen = false;
         this._buttonValue = null; //このボタンに割り当てられた値
         /*ボタンラベル*/
         this._labelField = []; //ラベル表示用のテキストフィールド
@@ -142,7 +147,7 @@ export class BasicClickButton extends createjs.Container {
      */
     disableButton() {
         this.isDisable = true;
-        this.mouseEnabled = false;
+        this.updateMouseEnabled();
         this.updateMaterialVisible(BasicButtonState.DISABLE);
     }
     /**
@@ -150,15 +155,26 @@ export class BasicClickButton extends createjs.Container {
      */
     enableButton() {
         this.isDisable = false;
-        this.mouseEnabled = true;
+        this.updateMouseEnabled();
         this.updateMaterialVisible(BasicButtonState.NORMAL);
+    }
+    get frozen() {
+        return this._frozen;
+    }
+    set frozen(value) {
+        this._frozen = value;
+        this.updateMouseEnabled();
+        console.log(this.isDisable, this._frozen, this.mouseEnabled);
+    }
+    updateMouseEnabled() {
+        this.mouseEnabled = !this.isDisable && !this._frozen;
     }
     /**
      * 現在のボタンの有効、無効状態を取得する
      * @return    ボタンが有効か否か
      */
     checkActivity() {
-        return !this.isDisable && this.mouseEnabled;
+        return !this.isDisable && !this._frozen && this.mouseEnabled;
     }
     /**
      * 現在のボタンの状態を取得する

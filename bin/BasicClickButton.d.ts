@@ -14,6 +14,11 @@ export declare class BasicClickButton extends createjs.Container {
     protected isDisable: boolean;
     protected isPressed: boolean;
     protected isOver: boolean;
+    /**
+     * ボタンの凍結状態。
+     * trueに設定すると、ボタンの状態と外見を維持したまま、マウス操作を無視する。
+     */
+    private _frozen;
     protected _buttonValue: any;
     protected material: ButtonMaterialSet;
     protected _labelField: createjs.Text[];
@@ -69,6 +74,8 @@ export declare class BasicClickButton extends createjs.Container {
      * ボタンを活性化する
      */
     enableButton(): void;
+    frozen: boolean;
+    private updateMouseEnabled;
     /**
      * 現在のボタンの有効、無効状態を取得する
      * @return    ボタンが有効か否か

@@ -27,6 +27,7 @@ const onDomContentsLoaded = () => {
   testButton();
   testCheckButton();
   testDisableButton();
+  testFrozenButton();
   testRadioButtons();
   testRadioMarkerButtons();
   testRadioLabelButtons();
@@ -94,6 +95,23 @@ const testDisableButton = () => {
 
   addLabel(testButton, "D");
   testButton.disableButton();
+
+  testButton.addEventListener("click", e => {
+    console.log(e);
+  });
+};
+
+const testFrozenButton = () => {
+  const testButton = new BasicCheckButton();
+  testButton.initMaterial(getMaterialSet());
+  testButton.x = 180 * 4;
+  testButton.y = 180;
+  addLabel(testButton, "frozen");
+  stage.addChild(testButton);
+  testButton.selectButton();
+  testButton.frozen = true;
+  testButton.frozen = false;
+  testButton.frozen = true;
 
   testButton.addEventListener("click", e => {
     console.log(e);
