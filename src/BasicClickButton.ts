@@ -17,6 +17,11 @@ export class BasicClickButton extends createjs.Container {
   protected isDisable: boolean = false; //ボタンが使用不可状態か否か
   protected isPressed: boolean = false; //ボタンが押されているか否か
   protected isOver: boolean = false; //マウスオーバーしているか否か
+  /**
+   * ボタンの凍結状態。
+   * trueに設定すると、ボタンの状態と外見を維持したまま、マウス操作を無視する。
+   */
+  private _frozen: boolean = false;
 
   protected _buttonValue: any = null; //このボタンに割り当てられた値
   protected material!: ButtonMaterialSet; //状態マテリアル 状態によって表示が切り替わるもの。
@@ -160,7 +165,7 @@ export class BasicClickButton extends createjs.Container {
    */
   public disableButton(): void {
     this.isDisable = true;
-    this.mouseEnabled = false;
+    this.updateMouseEnabled();
     this.updateMaterialVisible(BasicButtonState.DISABLE);
   }
 
@@ -169,8 +174,22 @@ export class BasicClickButton extends createjs.Container {
    */
   public enableButton(): void {
     this.isDisable = false;
-    this.mouseEnabled = true;
+    this.updateMouseEnabled();
     this.updateMaterialVisible(BasicButtonState.NORMAL);
+  }
+
+  get frozen(): boolean {
+    return this._frozen;
+  }
+
+  set frozen(value: boolean) {
+    this._frozen = value;
+    this.updateMouseEnabled();
+    console.log(this.isDisable, this._frozen, this.mouseEnabled);
+  }
+
+  private updateMouseEnabled() {
+    this.mouseEnabled = !this.isDisable && !this._frozen;
   }
 
   /**
@@ -178,7 +197,7 @@ export class BasicClickButton extends createjs.Container {
    * @return    ボタンが有効か否か
    */
   protected checkActivity(): boolean {
-    return !this.isDisable && this.mouseEnabled;
+    return !this.isDisable && !this._frozen && this.mouseEnabled;
   }
 
   /**
