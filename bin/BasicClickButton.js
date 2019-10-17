@@ -164,7 +164,6 @@ export class BasicClickButton extends createjs.Container {
     set frozen(value) {
         this._frozen = value;
         this.updateMouseEnabled();
-        console.log(this.isDisable, this._frozen, this.mouseEnabled);
     }
     updateMouseEnabled() {
         this.mouseEnabled = !this.isDisable && !this._frozen;
