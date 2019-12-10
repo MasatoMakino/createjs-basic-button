@@ -11,37 +11,32 @@
     "createjs-cache-util": "https://github.com/MasatoMakino/createjs-cache-util.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
     "@types/easeljs": "^1.0.0",
-    "@types/jest": "^24.0.19",
-    "babel-loader": "^8.0.6",
-    "browser-sync": "^2.26.7",
-    "husky": "^3.0.9",
+    "@types/jest": "^24.0.23",
+    "gulp": "^4.0.2",
+    "gulptask-demo-page": "https://github.com/MasatoMakino/gulptask-demo-page.git",
+    "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",
+    "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
+    "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
+    "husky": "^3.1.0",
     "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "replace-in-file": "^4.1.3",
-    "ts-jest": "^24.1.0",
-    "typedoc": "^0.15.0",
-    "typescript": "^3.6.4",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
+    "ts-jest": "^24.2.0",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
   },
   "scripts": {
     "test": "jest --coverage",
-    "build": "npm run prettier:src && tsc && npm run babel",
-    "prettier:src": "prettier --write './!(bin|docs|coverage)/**/*.{js,ts,json}' ",
-    "babel": "webpack --mode development --module-bind js=babel-loader ./docs/demo/main.js --output ./docs/demo/bundle.js",
-    "watch:server": "node task/browsersync.js development",
-    "server": "node task/browsersync.js production",
-    "doc": "npm run doc:generate && npm run doc:replaceNode && npm run doc:card",
-    "doc:generate": "typedoc --tsconfig tsdocconfig.json src",
-    "doc:replaceNode": "node ./task/replaceAPI.js",
+    "start:dev": "gulp start_dev",
+    "build": "gulp build && npm run doc:card",
+    "build:clean": "gulp build_clean && npm run doc:card",
+    "checkout:docs": "git checkout HEAD ./docs/",
     "doc:card": "repoimg -n MasatoMakino/createjs-basic-button -o ./docs/card.png"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build"
+      "pre-commit": "pretty-quick --staged"
     }
   }
 }
