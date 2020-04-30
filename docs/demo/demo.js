@@ -90,7 +90,7 @@
 /*!****************************!*\
   !*** ./bin/BasicButton.js ***!
   \****************************/
-/*! exports provided: BasicButtonEvent, BasicButtonEventType, BasicClickButton, BasicCheckButton, BasicRadioButton, BasicRadioButtonManager, ButtonMaterialSet, ButtonLabelColorSet, BasicButtonState */
+/*! exports provided: BasicButtonEvent, BasicButtonEventType, BasicClickButton, ButtonMaterialSet, ButtonLabelColorSet, BasicButtonState, BasicCheckButton, BasicRadioButton, BasicRadioButtonManager */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
