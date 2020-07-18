@@ -1,6 +1,66 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"demo": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -79,9 +139,18 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./demoSrc/demo.js");
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push(["./demoSrc/demo.js","vendor"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -191,18 +260,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! .. */ \"./bin/BasicButton.js\");\n\nlet stage;\n\nconst onDomContentsLoaded = () => {\n  //ステージ更新処理\n  const updateStage = () => {\n    stage.update();\n  }; //stageの初期化\n\n\n  const canvas = document.getElementById(\"appCanvas\");\n  stage = new createjs.Stage(canvas);\n  stage.enableMouseOver();\n  console.log(stage._mouseOverIntervalID);\n  createjs.Ticker.on(\"tick\", updateStage);\n  testButton();\n  testCheckButton();\n  testDisableButton();\n  testFrozenButton();\n  testRadioButtons();\n  testRadioMarkerButtons();\n  testRadioLabelButtons();\n};\n\nconst getMaterial = color => {\n  const mat = new createjs.Shape();\n  const g = mat.graphics;\n  g.beginFill(color);\n  g.drawRect(0, 0, 64, 32);\n  g.endFill();\n  return mat;\n};\n\nconst getMaterialSet = marker => {\n  const mat = {\n    normal: getMaterial(\"#0f0\"),\n    over: getMaterial(\"#6f6\"),\n    down: getMaterial(\"#f0f\"),\n    disable: getMaterial(\"#666\"),\n    selectNormal: getMaterial(\"#0ff\"),\n    selectOver: getMaterial(\"#6ff\"),\n    selectDown: getMaterial(\"#f8f\")\n  };\n\n  if (marker != null) {\n    mat.selectMarker = marker;\n  }\n\n  return mat;\n};\n\nconst testButton = () => {\n  const testButton = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicClickButton\"]();\n  testButton.initMaterial(getMaterialSet());\n  testButton.x = 180;\n  testButton.y = 180;\n  stage.addChild(testButton);\n  testButton.addEventListener(\"click\", e => {\n    console.log(e);\n  });\n};\n\nconst testCheckButton = () => {\n  const testButton = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicCheckButton\"]();\n  testButton.initMaterial(getMaterialSet());\n  testButton.x = 180 * 2;\n  testButton.y = 180;\n  addLabel(testButton, \"C\");\n  addLabel(testButton, \"CCCC\", 24);\n  stage.addChild(testButton);\n  testButton.addEventListener(\"click\", e => {\n    console.log(e);\n  });\n};\n\nconst testDisableButton = () => {\n  const testButton = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicCheckButton\"]();\n  testButton.initMaterial(getMaterialSet());\n  testButton.x = 180 * 3;\n  testButton.y = 180;\n  stage.addChild(testButton);\n  addLabel(testButton, \"D\");\n  testButton.disableButton();\n  testButton.addEventListener(\"click\", e => {\n    console.log(e);\n  });\n};\n\nconst testFrozenButton = () => {\n  const testButton = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicCheckButton\"]();\n  testButton.initMaterial(getMaterialSet());\n  testButton.x = 180 * 4;\n  testButton.y = 180;\n  addLabel(testButton, \"frozen\");\n  stage.addChild(testButton);\n  testButton.selectButton();\n  testButton.frozen = true;\n  testButton.frozen = false;\n  testButton.frozen = true;\n  testButton.addEventListener(\"click\", e => {\n    console.log(e);\n  });\n};\n\nconst getRadioButton = (x, value, y, marker) => {\n  if (y == null) y = 360;\n  const testButton = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicRadioButton\"]();\n  const matSet = getMaterialSet(marker);\n  testButton.initMaterial(matSet);\n  testButton.x = x;\n  testButton.y = y;\n  testButton.buttonValue = value;\n  stage.addChild(testButton);\n  return testButton;\n};\n\nconst testRadioButtons = () => {\n  const manager = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicRadioButtonManager\"]();\n  manager.add(getRadioButton(180 * 1, \"button01\"));\n  manager.add(getRadioButton(180 * 2, \"button02\"));\n  manager.add(getRadioButton(180 * 3, \"button03\")); //複数回initSelectionを行っても問題ないか確認。\n\n  manager.selected = manager.buttons[0];\n  manager.selected = null;\n  manager.selected = manager.buttons[1];\n  manager.selected = manager.buttons[2];\n  manager.addEventListener(___WEBPACK_IMPORTED_MODULE_0__[\"BasicButtonEventType\"].SELECTED, e => {\n    const evt = e;\n    console.log(evt.buttonValue);\n  });\n};\n\nconst getMarker = () => {\n  const shape = new createjs.Shape();\n  shape.graphics.beginFill(\"#F00\").drawCircle(0, 0, 8).endFill();\n  return shape;\n};\n\nconst testRadioMarkerButtons = () => {\n  const manager = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicRadioButtonManager\"]();\n  manager.add(getRadioButton(180 * 1, \"button01\", 480, getMarker()));\n  manager.add(getRadioButton(180 * 2, \"button02\", 480, getMarker()));\n  manager.add(getRadioButton(180 * 3, \"button03\", 480, getMarker()));\n  manager.selected = manager.buttons[0];\n};\n\nconst testRadioLabelButtons = () => {\n  const manager = new ___WEBPACK_IMPORTED_MODULE_0__[\"BasicRadioButtonManager\"]();\n  manager.add(getRadioButton(180 * 1, \"button01\", 560, getMarker()));\n  manager.add(getRadioButton(180 * 2, \"button02\", 560, getMarker()));\n  manager.add(getRadioButton(180 * 3, \"button03\", 560, getMarker()));\n\n  for (let btn of manager.buttons) {\n    addLabel(btn, btn.buttonValue);\n  }\n\n  manager.selected = manager.buttons[0];\n};\n\nconst addLabel = (btn, label, y) => {\n  if (y == null) {\n    y = 32 / 2;\n  }\n\n  btn.addLabel(64 / 2, y, label, \"16px sans\", getLabelColors(), \"center\");\n};\n\nconst getLabelColors = () => {\n  const colors = {\n    normal: \"#111\",\n    over: \"#333\",\n    down: \"#222\",\n    disable: \"#888\",\n    selectNormal: \"#22f\",\n    selectOver: \"#44f\",\n    selectDown: \"#99f\"\n  };\n  return colors;\n};\n/**\n * DOMContentLoaded以降に初期化処理を実行する\n */\n\n\nif (document.readyState !== \"loading\") {\n  onDomContentsLoaded();\n} else {\n  document.addEventListener(\"DOMContentLoaded\", onDomContentsLoaded);\n}\n\n//# sourceURL=webpack:///./demoSrc/demo.js?");
-
-/***/ }),
-
-/***/ "./node_modules/createjs-cache-util/bin/createjs-text-cache.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/createjs-cache-util/bin/createjs-text-cache.js ***!
-  \*********************************************************************/
-/*! exports provided: CreatejsCacheUtil, CacheTextOption */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"CreatejsCacheUtil\", function() { return CreatejsCacheUtil; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"CacheTextOption\", function() { return CacheTextOption; });\nvar Shape = createjs.Shape;\nclass CreatejsCacheUtil {\n    /**\n     * フィルタ適用のためのキャッシュを生成する。\n     * @param target\n     * @param filters\n     * @param margin\n     * @param scale\n     * @param addHitArea\n     */\n    static setFilter(target, filters, margin = 8, scale = 1, addHitArea = false) {\n        target.filters = filters;\n        if (!target.bitmapCache) {\n            this.refreshCache(target, margin, scale, addHitArea);\n        }\n        else {\n            target.updateCache();\n        }\n    }\n    /**\n     * テキストオブジェクトのキャッシュと更新を行う。\n     * テキストに変化がない場合は処理をスキップする。\n     * @param {createjs.Text} target\n     * @param {string} value\n     * @param {CacheTextOption} option\n     */\n    static cacheText(target, value, option) {\n        if (!target)\n            return;\n        option = CacheTextOption.init(target, option);\n        if (!this.isNeedUpdate(target, value, option))\n            return;\n        //文字とカラーの更新\n        const currentText = target.text;\n        target.text = value;\n        target.color = option.color;\n        //すでにキャッシュ済みで同じ文字列を入力するならキャッシュの更新で終了\n        if (target.bitmapCache && currentText === value) {\n            target.updateCache();\n            return;\n        }\n        this.refreshCache(target, option.margin, option.scale, option.addHitArea);\n    }\n    /**\n     * 対象のディスプレイオブジェクトを、指定されたマージンの範囲でキャッシュする。\n     * キャッシュはupdateではなくuncacheを行い、キャッシュサイズも変更する。\n     *\n     * @param target\n     * @param margin\n     * @param scale\n     * @param addHitArea\n     */\n    static refreshCache(target, margin, scale, addHitArea) {\n        //キャッシュのサイズ更新が必要な場合はアンキャッシュを行う。\n        //アンキャッシュ前にgetBoundsを呼ぶと、変更済みのサイズではなくキャッシュのバウンディングボックスが返ってくるため。\n        target.uncache();\n        const rect = this.getRect(target, margin);\n        //targetが空文字などサイズが計測不能な場合はキャッシュするのを諦めて処理を中断。\n        if (rect == null)\n            return;\n        target.cache(rect.x, rect.y, rect.width, rect.height, scale);\n        if (addHitArea) {\n            CreatejsCacheUtil.addHitArea(target, rect);\n        }\n    }\n    /**\n     * キャッシュ用の座標を取得。\n     * @param target\n     * @param margin\n     */\n    static getRect(target, margin) {\n        const bounds = target.getBounds();\n        if (bounds == null)\n            return null;\n        return {\n            x: bounds.x - margin,\n            y: bounds.y - margin,\n            width: bounds.width + margin * 2,\n            height: bounds.height + margin * 2\n        };\n    }\n    static addHitArea(target, rect) {\n        const shape = new Shape();\n        shape.graphics\n            .beginFill(\"#000\")\n            .drawRect(rect.x, rect.y, rect.width, rect.height)\n            .endFill();\n        target.hitArea = shape;\n    }\n    /**\n     * キャッシュの更新が必要か否かを判定する。\n     * cacheText関数の内部処理。\n     *\n     * @param {createjs.Text} target\n     * @param {string} value\n     * @param {CacheTextOption} option\n     * @returns {boolean}\n     */\n    static isNeedUpdate(target, value, option) {\n        //キャッシュが行われていないなら強制的にキャッシュを更新。\n        if (!target.bitmapCache)\n            return true;\n        //状態が同一か確認\n        if (target.text !== value)\n            return true;\n        if (target.color !== option.color)\n            return true;\n        //スケール値が存在し、かつ同一かを確認\n        const cacheScale = target.bitmapCache.scale; //2019/05/03 bitmapCache.scaleプロパティは非公開である。将来的に取得できなくなる可能性がある。\n        if (cacheScale != null && cacheScale !== option.scale)\n            return true;\n        return false;\n    }\n}\n/**\n * CreatejsCacheUtil.cacheText関数のためのオプション。\n */\nclass CacheTextOption {\n    /**\n     * 不足している値をデフォルト値で埋める。\n     * @param {createjs.Text} target\n     * @param {CacheTextOption} option\n     * @returns {CacheTextOption}\n     */\n    static init(target, option) {\n        if (option == null)\n            option = {};\n        if (option.margin == null)\n            option.margin = 8;\n        if (!option.color)\n            option.color = target.color;\n        if (option.scale == null)\n            option.scale = 1;\n        if (option.addHitArea == null)\n            option.addHitArea = false;\n        return option;\n    }\n}\n\n\n//# sourceURL=webpack:///./node_modules/createjs-cache-util/bin/createjs-text-cache.js?");
 
 /***/ })
 
