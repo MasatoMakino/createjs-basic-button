@@ -1,9 +1,9 @@
 # createjs-basic-button
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/c1b6a32faecab44047c3/maintainability)](https://codeclimate.com/github/MasatoMakino/createjs-basic-button/maintainability)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c1b6a32faecab44047c3/maintainability)](https://codeclimate.com/github/MasatoMakino/createjs-basic-button/maintainability)
 
-[Github repository](https://github.com/MasatoMakino/createjs-basic-button)
+[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=MasatoMakino&repo=createjs-basic-button&show_owner=true)](https://github.com/MasatoMakino/createjs-basic-button)
 
 ## Demo
 
@@ -43,29 +43,27 @@ import { BasicClickButton } from "createjs-basic-button";
 
 ### Setting stage
 
-Enables mouse over events for a stage. 
+Enables mouse over events for a stage.
 
 [enableMouseOver](https://createjs.com/docs/easeljs/classes/Stage.html#method_enableMouseOver)
 
 ```js
-  stage.enableMouseOver();
+stage.enableMouseOver();
 ```
 
 ### Add button
 
 ```js
-  const button = new BasicClickButton();
-  button.initMaterial({
-      normal: new createjs.Bitmap("imagePath.jpg")
-  });
-  stage.addChild(button);
+const button = new BasicClickButton();
+button.initMaterial({
+  normal: new createjs.Bitmap("imagePath.jpg"),
+});
+stage.addChild(button);
 ```
 
 [API documents](https://masatomakino.github.io/createjs-basic-button/api/index.html)
 
 see also [demo script](https://masatomakino.github.io/createjs-basic-button/demo/main.js).
-
-
 
 ## License
 
