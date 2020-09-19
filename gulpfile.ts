@@ -13,7 +13,7 @@ const copy = () => {
 };
 
 const { tsc, tscClean, watchTsc } = require("gulptask-tsc").get({
-  projects: ["tsconfig.json", "tsconfig.esm.json"],
+  projects: ["tsconfig.cjs.json", "tsconfig.esm.json"],
 });
 
 const watchTasks = async () => {
