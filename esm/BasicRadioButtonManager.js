@@ -1,5 +1,4 @@
-import {BasicButtonEvent, BasicButtonEventType} from "./BasicButtonEvent";
-
+import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 /**
  * 排他的に選択されるボタンを制御するクラスです。
  *

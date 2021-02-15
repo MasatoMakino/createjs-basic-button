@@ -1,8 +1,7 @@
 /// <reference types="easeljs" />
 import Text = createjs.Text;
-import {BasicButtonState} from "./BasicButtonState";
-import {ButtonLabelColorSet, ButtonMaterialSet} from "./ButtonMaterialSet";
-
+import { BasicButtonState } from "./BasicButtonState";
+import { ButtonMaterialSet, ButtonLabelColorSet } from "./ButtonMaterialSet";
 /**
  * 基本ボタンクラス。
  * 選択状態を持たず、クリックした時点で結果が反映されるタイプのボタンです。

@@ -1,7 +1,6 @@
-import {BasicClickButton} from "./BasicClickButton";
-import {BasicButtonState} from "./BasicButtonState";
-import {BasicButtonEvent, BasicButtonEventType} from "./BasicButtonEvent";
-
+import { BasicClickButton } from "./BasicClickButton";
+import { BasicButtonState } from "./BasicButtonState";
+import { BasicButtonEvent, BasicButtonEventType } from "./BasicButtonEvent";
 /**
  * 選択状態を持つボタンクラス。
  */

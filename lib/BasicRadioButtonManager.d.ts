@@ -1,6 +1,5 @@
 /// <reference types="createjs-lib" />
-import {BasicRadioButton} from "./BasicRadioButton";
-
+import { BasicRadioButton } from "./BasicRadioButton";
 /**
  * 排他的に選択されるボタンを制御するクラスです。
  *

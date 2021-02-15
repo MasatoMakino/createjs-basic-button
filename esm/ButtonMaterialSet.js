@@ -1,6 +1,5 @@
-import {BasicButtonState} from "./BasicButtonState";
-import {CreatejsCacheUtil} from "createjs-cache-util";
-
+import { BasicButtonState } from "./BasicButtonState";
+import { CreatejsCacheUtil } from "createjs-cache-util";
 class ButtonOptionSet {
     /**
      * stateに対応するオプション値を取り出す

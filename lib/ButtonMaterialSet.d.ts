@@ -1,9 +1,8 @@
 /// <reference types="easeljs" />
-import {BasicButtonState} from "./BasicButtonState";
-import {BasicClickButton} from "./BasicClickButton";
+import { BasicButtonState } from "./BasicButtonState";
+import { BasicClickButton } from "./BasicClickButton";
 import DisplayObject = createjs.DisplayObject;
 import Text = createjs.Text;
-
 declare class ButtonOptionSet<T> {
     normal: T;
     over?: T;

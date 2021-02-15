@@ -5,4 +5,4 @@ export * from "./BasicButtonState";
 export { BasicCheckButton } from "./BasicCheckButton";
 export { BasicRadioButton } from "./BasicRadioButton";
 export { BasicRadioButtonManager } from "./BasicRadioButtonManager";
-//# sourceMappingURL=BasicButton.d.ts.map
+//# sourceMappingURL=index.d.ts.map

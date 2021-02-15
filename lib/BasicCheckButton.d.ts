@@ -1,7 +1,6 @@
 /// <reference types="easeljs" />
-import {BasicButtonState} from "./BasicButtonState";
-import {BasicClickButton} from "./BasicClickButton";
-
+import { BasicClickButton } from "./BasicClickButton";
+import { BasicButtonState } from "./BasicButtonState";
 /**
  * 選択状態を持つボタンクラス。
  */

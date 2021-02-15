@@ -1,5 +1,4 @@
-import {BasicCheckButton} from "./BasicCheckButton";
-
+import { BasicCheckButton } from "./BasicCheckButton";
 /**
  * 排他的に選択可能なボタン。ラジオボタンのセットはBasicRadioButtonManagerで設定する。
  */

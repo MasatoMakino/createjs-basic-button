@@ -1,7 +1,6 @@
-import {CreatejsCacheUtil} from "createjs-cache-util";
-import {BasicButtonState} from "./BasicButtonState";
-import {ButtonLabelColorSet, ButtonMaterialSet} from "./ButtonMaterialSet";
-
+import { CreatejsCacheUtil } from "createjs-cache-util";
+import { BasicButtonState } from "./BasicButtonState";
+import { ButtonMaterialSet, ButtonLabelColorSet } from "./ButtonMaterialSet";
 var Shape = createjs.Shape;
 /**
  * 基本ボタンクラス。
