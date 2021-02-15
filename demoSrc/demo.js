@@ -1,11 +1,9 @@
 import {
   BasicClickButton,
-  BasicButtonMaterialConfig,
   BasicButtonEventType,
   BasicCheckButton,
   BasicRadioButton,
   BasicRadioButtonManager,
-  BasicButtonEvent
 } from "..";
 
 let stage;
