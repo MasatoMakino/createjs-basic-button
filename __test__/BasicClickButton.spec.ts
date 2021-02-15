@@ -1,4 +1,4 @@
-import { BasicClickButton } from "../src/BasicButton";
+import { BasicClickButton } from "../src/index";
 
 describe("BasicClickButton", () => {
   test("init", () => {
